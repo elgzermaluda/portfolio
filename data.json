@@ -91,6 +91,30 @@
       "dur": "testa",
       "year": "testa",
       "desc": "testa"
+    },
+    {
+      "type": "Internship",
+      "org": "Org",
+      "role": "Role",
+      "dur": "",
+      "year": "",
+      "desc": ""
+    },
+    {
+      "type": "Internship",
+      "org": "Org",
+      "role": "Role",
+      "dur": "",
+      "year": "",
+      "desc": ""
+    },
+    {
+      "type": "Internship",
+      "org": "Org",
+      "role": "Role",
+      "dur": "",
+      "year": "",
+      "desc": ""
     }
   ],
   "achievements": [
@@ -111,6 +135,24 @@
       "year": "2022",
       "title": "AWS Certified Developer – Associate",
       "desc": "Certified in cloud architecture, serverless computing, and deploying scalable applications on AWS."
+    },
+    {
+      "icon": "🏅",
+      "year": "2024",
+      "title": "Achievement",
+      "desc": ""
+    },
+    {
+      "icon": "🏅",
+      "year": "2024",
+      "title": "Achievement",
+      "desc": ""
+    },
+    {
+      "icon": "🏅",
+      "year": "2024",
+      "title": "Achievement",
+      "desc": ""
     }
   ],
   "skills": [
@@ -145,6 +187,14 @@
     {
       "icon": "🤖",
       "name": "Machine Learning"
+    },
+    {
+      "icon": "⚡",
+      "name": "Skill"
+    },
+    {
+      "icon": "⚡",
+      "name": "Skill"
     }
   ]
 }
