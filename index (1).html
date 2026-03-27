@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:#faf8f4;--white:#ffffff;--ink:#1a1a1a;--ink-mid:#444;--ink-light:#777;
+  --accent:#e85d26;--accent-soft:#fff0ea;--accent-border:#f5c4aa;
+  --sage:#7a9e7e;--sage-soft:#eef5ef;--gold:#c9a84c;--gold-soft:#fdf8ec;
+  --border:#e8e2d9;--radius:18px;--radius-sm:10px;
+  --shadow:0 2px 20px rgba(0,0,0,.06);--shadow-lg:0 12px 48px rgba(0,0,0,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);line-height:1.6}
+nav{background:rgba(250,248,244,.94);backdrop-filter:blur(14px);position:sticky;top:0;z-index:100;border-bottom:1px solid var(--border);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:66px}
+.nav-left{display:flex;align-items:center;gap:15px}
+.nav-logo{font-family:'Playfair Display',serif;font-size:21px;font-weight:700;color:var(--ink);text-decoration:none}
+#edit-toggle{background:var(--ink);color:#fff;border:none;padding:8px 18px;border-radius:100px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:7px;box-shadow:var(--shadow);transition:all .2s}
+#edit-toggle:hover{background:var(--accent);transform:translateY(-1px)}
+#edit-toggle.editing{background:var(--accent)}
+#edit-toggle .dot{width:7px;height:7px;border-radius:50%;background:#4ade80;flex-shrink:0}
+#edit-toggle.editing .dot{background:#fbbf24}
+.nav-links{display:flex;gap:30px;list-style:none}
+.nav-links a{text-decoration:none;color:var(--ink-light);font-size:14px;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--accent)}
+#edit-banner{display:none;position:fixed;top:0;left:0;right:0;background:var(--accent);color:#fff;text-align:center;padding:9px;font-size:13px;font-weight:500;z-index:999}
+body.edit-mode #edit-banner{display:block}
+body.edit-mode{padding-top:38px}
+body.edit-mode [contenteditable=true]{outline:2px dashed var(--accent);border-radius:4px;cursor:text;min-width:10px}
+body.edit-mode [contenteditable=true]:focus{outline:2px solid var(--accent);background:rgba(232,93,38,.04)}
+body.edit-mode .card-actions{display:flex !important}
+body.edit-mode .add-btn{display:flex !important}
+body.edit-mode .img-overlay{display:flex !important}
+#pw-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:3000;align-items:center;justify-content:center;padding:20px}
+#pw-overlay.open{display:flex}
+#pw-box{background:#fff;border-radius:var(--radius);padding:40px;width:90%;max-width:400px;box-shadow:var(--shadow-lg);text-align:center;max-height:90vh;overflow-y:auto}
+#pw-box h3{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:8px}
+#pw-box p{font-size:14px;color:var(--ink-light);margin-bottom:24px}
+#pw-input{width:100%;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:12px 16px;font-family:'DM Sans',sans-serif;font-size:15px;text-align:center;letter-spacing:3px;outline:none;transition:border .2s;margin-bottom:8px}
+#pw-input:focus{border-color:var(--accent)}
+#pw-error{font-size:12px;color:#ef4444;min-height:18px;margin-bottom:12px}
+#pw-btn{width:100%;background:var(--ink);color:#fff;border:none;padding:13px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s}
+#pw-btn:hover{background:var(--accent)}
+#pw-cancel{background:none;border:none;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink-light);cursor:pointer;margin-top:12px;text-decoration:underline}
+#backup-section{margin-top:20px;padding-top:20px;border-top:1px solid var(--border);text-align:left}
+#backup-section h4{font-size:11px;font-weight:700;color:var(--ink-light);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;text-align:center}
+.backup-item{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--cream);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px}
+.backup-item:last-child{margin-bottom:0}
+.backup-meta{font-size:13px;color:var(--ink-mid);font-weight:500}
+.backup-meta span{display:block;font-size:11px;color:var(--ink-light);margin-top:2px;font-weight:400}
+.backup-restore-btn{background:none;border:1.5px solid var(--accent-border);color:var(--accent);border-radius:100px;padding:5px 14px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap}
+.backup-restore-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+#no-backups{font-size:13px;color:var(--ink-light);text-align:center;padding:8px 0}
+.hero{min-height:90vh;display:flex;align-items:center;padding:0 5%;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 65% 65% at 80% 50%,#fde8d8 0%,transparent 65%),radial-gradient(ellipse 40% 40% at 8% 80%,#eef5ef 0%,transparent 60%);z-index:0}
+.hero-content{position:relative;z-index:1;max-width:640px}
+.hero-badge{display:inline-block;background:var(--accent-soft);color:var(--accent);border:1px solid var(--accent-border);border-radius:100px;padding:5px 15px;font-size:13px;font-weight:600;margin-bottom:26px;letter-spacing:.3px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(40px,7vw,80px);line-height:1.04;font-weight:900;margin-bottom:22px;color:var(--ink)}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero-sub{font-size:18px;color:var(--ink-light);max-width:500px;margin-bottom:36px;line-height:1.75;font-weight:300}
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.btn-primary{background:var(--ink);color:#fff;border:none;padding:14px 28px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;transition:all .2s}
+.btn-primary:hover{background:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.btn-outline{border:2px solid var(--border);background:transparent;color:var(--ink);padding:13px 26px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;text-decoration:none;display:inline-block;transition:all .2s}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+.hero-avatar{position:absolute;right:5%;bottom:0;width:clamp(400px,35vw,1350px);z-index:1;display:flex;align-items:flex-end}
+.avatar-box{width:100%;cursor:default;position:relative;display:flex;align-items:flex-end;justify-content:center}
+body.edit-mode .avatar-box{cursor:pointer;outline:2px dashed var(--accent);outline-offset:4px;border-radius:8px}
+.avatar-box img{width:100%;height:auto;display:block}
+#avatar-placeholder{padding:100px 20px;text-align:center;color:var(--ink-light)}
+#avatar-placeholder svg{opacity:.5;margin-bottom:12px}
+#avatar-placeholder p{font-size:13px;font-weight:500}
+#avatar-hint{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.6);color:#fff;padding:8px 16px;border-radius:100px;font-size:12px;white-space:nowrap;display:none;pointer-events:none}
+body.edit-mode .avatar-box:hover #avatar-hint{display:block}
+section{padding:84px 5%}
+section+section{border-top:1px solid var(--border)}
+.section-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:48px;flex-wrap:wrap;gap:16px}
+.section-label{font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,42px);font-weight:700;line-height:1.15;color:var(--ink)}
+.add-btn{display:none;align-items:center;gap:8px;background:var(--accent-soft);color:var(--accent);border:2px dashed var(--accent-border);padding:10px 20px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
+.add-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.card-actions{display:none;gap:5px;position:absolute;top:10px;right:10px;z-index:10;background:rgba(255,255,255,.95);padding:4px;border-radius:100px;box-shadow:var(--shadow)}
+.card-actions button{width:28px;height:28px;border-radius:50%;border:none;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.btn-del{background:#fee2e2;color:#ef4444}
+.btn-del:hover{background:#ef4444;color:#fff}
+.btn-edit{background:#e0f0ff;color:#2563eb}
+.btn-edit:hover{background:#2563eb;color:#fff}
+.btn-move{background:var(--sage-soft);color:var(--sage)}
+.btn-move:hover{background:var(--sage);color:#fff}
+.see-more-container{width:100%;display:flex;justify-content:center;margin-top:40px}
+.see-more-btn{background:transparent;border:1px solid var(--border);color:var(--ink-light);padding:10px 24px;border-radius:100px;cursor:pointer;font-weight:600;font-size:13px;transition:all .2s}
+.see-more-btn:hover{border-color:var(--accent);color:var(--accent)}
+#projects{background:var(--white)}
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px}
+.project-card{background:var(--cream);border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);position:relative;transition:all .25s}
+.project-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-4px)}
+.project-img{width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,#fde8d8,#fad5be);display:block;position:relative;overflow:hidden}
+.project-img img{width:100%;height:100%;object-fit:cover;display:block}
+.project-img-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:36px;opacity:.35}
+.img-overlay{display:none;position:absolute;inset:0;background:rgba(0,0,0,.45);align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600;cursor:pointer;gap:6px}
+body.edit-mode .project-img:hover .img-overlay{display:flex}
+.project-body{padding:22px}
+.project-tag{display:inline-block;background:var(--accent-soft);color:var(--accent);border-radius:100px;padding:3px 12px;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px}
+.project-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:8px;line-height:1.3;color:var(--ink)}
+.project-desc{font-size:14px;color:var(--ink-light);line-height:1.65;margin-bottom:16px}
+.project-link{font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;display:inline-flex;align-items:center;gap:4px}
+.project-link:hover{text-decoration:underline}
+#experience{background:var(--cream)}
+.exp-list{display:flex;flex-direction:column}
+.exp-item{display:grid;grid-template-columns:110px 1fr;position:relative}
+.exp-item::before{content:'';position:absolute;left:109px;top:28px;bottom:0;width:1px;background:var(--border)}
+.exp-item:last-child::before{display:none}
+.exp-left{padding:22px 20px 22px 0;text-align:right}
+.exp-year{font-size:12px;font-weight:700;color:var(--gold);letter-spacing:1px}
+.exp-duration{font-size:11px;color:var(--ink-light);margin-top:4px;line-height:1.4}
+.exp-right{padding:22px 0 22px 30px;position:relative}
+.exp-dot{position:absolute;left:-7px;top:28px;width:13px;height:13px;border-radius:50%;background:var(--white);border:2.5px solid var(--accent);z-index:1}
+.exp-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px 22px;position:relative;transition:box-shadow .2s}
+.exp-card:hover{box-shadow:var(--shadow)}
+.exp-org{font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
+.exp-role{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--ink);margin-bottom:8px;line-height:1.3}
+.exp-type-badge{display:inline-block;background:var(--sage-soft);color:var(--sage);border-radius:100px;padding:2px 10px;font-size:11px;font-weight:700;letter-spacing:.5px;margin-bottom:10px}
+.exp-desc{font-size:14px;color:var(--ink-light);line-height:1.65}
+#achievements{background:var(--white)}
+.ach-list{display:flex;flex-direction:column;gap:14px}
+.ach-card{background:var(--cream);border:1px solid var(--border);border-radius:var(--radius-sm);padding:22px 26px;display:grid;grid-template-columns:52px 1fr;gap:18px;align-items:start;position:relative;transition:all .2s}
+.ach-card:hover{box-shadow:var(--shadow)}
+.ach-icon{width:52px;height:52px;border-radius:14px;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.ach-year{font-size:11px;font-weight:700;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px}
+.ach-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:5px;line-height:1.3;color:var(--ink)}
+.ach-desc{font-size:14px;color:var(--ink-light);line-height:1.6}
+#skills{background:var(--cream)}
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px}
+.skill-chip{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:15px 18px;display:flex;align-items:center;gap:12px;font-size:14px;font-weight:500;position:relative;transition:all .2s}
+.skill-chip:hover{border-color:var(--accent);color:var(--accent)}
+.skill-icon{font-size:20px;flex-shrink:0}
+#contact{background:var(--ink);color:#fff}
+#contact .section-label{color:#f5c4aa}
+#contact .section-title{color:#fff}
+.contact-grid{max-width:680px}
+.contact-text{font-size:16px;color:rgba(255,255,255,.55);line-height:1.8;margin-bottom:32px}
+.contact-links{display:flex;flex-direction:column;gap:12px;margin-bottom:0}
+.contact-link{display:inline-flex;align-items:center;gap:10px;color:rgba(255,255,255,.75);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s}
+.contact-link:hover{color:var(--accent)}
+.contact-availability{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:100px;padding:8px 18px;font-size:13px;font-weight:600;color:rgba(255,255,255,.8);margin-bottom:32px}
+.contact-availability .pulse{width:8px;height:8px;border-radius:50%;background:#4ade80;flex-shrink:0}
+.contact-divider{display:flex;align-items:center;gap:16px;margin:36px 0}
+.contact-divider-line{flex:1;height:1px;background:rgba(255,255,255,.12)}
+.contact-divider-diamond{width:7px;height:7px;background:var(--accent);transform:rotate(45deg);flex-shrink:0}
+.contact-quote{font-family:'Playfair Display',serif;font-style:italic;font-size:17px;color:rgba(255,255,255,.6);line-height:1.7;text-align:center}
+footer{background:var(--ink);border-top:1px solid rgba(255,255,255,.06);padding:22px 5%;display:flex;align-items:center;justify-content:space-between;font-size:13px;color:rgba(255,255,255,.3)}
+footer strong{color:rgba(255,255,255,.55);font-weight:600}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:var(--radius);padding:36px;width:100%;max-width:480px;box-shadow:0 24px 80px rgba(0,0,0,.2);max-height:90vh;overflow-y:auto}
+.modal h3{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:20px}
+.mf{display:flex;flex-direction:column;gap:12px}
+.mf label{font-size:11px;font-weight:700;color:var(--ink-light);letter-spacing:.5px;text-transform:uppercase;margin-bottom:-6px}
+.mf input,.mf textarea,.mf select{width:100%;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:11px 14px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);background:var(--cream);outline:none;transition:border .2s}
+.mf input:focus,.mf textarea:focus,.mf select:focus{border-color:var(--accent)}
+.mf textarea{min-height:80px;resize:vertical}
+.file-drop{border:2px dashed var(--border);border-radius:var(--radius-sm);padding:18px;text-align:center;font-size:13px;color:var(--ink-light);cursor:pointer;transition:all .2s}
+.file-drop:hover,.file-drop.drag-over{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.file-drop input[type=file]{display:none}
+.modal-btns{display:flex;gap:10px;justify-content:flex-end;margin-top:6px}
+.m-cancel{background:none;border:1.5px solid var(--border);color:var(--ink-light);padding:10px 20px;border-radius:100px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px}
+.m-save{background:var(--accent);color:#fff;border:none;padding:10px 24px;border-radius:100px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600}
+.modal-mode-tag{display:inline-block;background:var(--accent-soft);color:var(--accent);border-radius:100px;padding:3px 12px;font-size:11px;font-weight:700;letter-spacing:.5px;margin-bottom:16px}
+@media(max-width:768px){
+  .hero-avatar{display:none}.nav-links{display:none}
+  .projects-grid{grid-template-columns:1fr}
+  .exp-item{grid-template-columns:72px 1fr}.exp-item::before{left:71px}
+}
+</style>
+</head>
+<body>
+
+<div id="edit-banner">✏️ Edit mode — ✏️ to edit · ↑↓ to reorder · + to add · saves to GitHub on exit</div>
+
+<div id="pw-overlay">
+  <div id="pw-box">
+    <h3>🔒 Editor Access</h3>
+    <p>Enter your password to edit</p>
+    <input type="password" id="pw-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPw()">
+    <div id="pw-error"></div>
+    <button id="pw-btn" onclick="checkPw()">Unlock</button><br>
+    <button id="pw-cancel" onclick="closePw()">Cancel</button>
+    <div id="backup-section">
+      <h4>🕐 Restore a backup</h4>
+      <div id="backup-list"><div id="no-backups">No backups yet — created automatically on each save.</div></div>
+    </div>
+  </div>
+</div>
+
+<nav>
+  <div class="nav-left">
+    <a class="nav-logo" href="#" id="nav-name">Alex Rivera</a>
+    <button id="edit-toggle" onclick="handleEditToggle()"><span class="dot"></span><span id="edit-label">Edit Portfolio</span></button>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#achievements">Achievements</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge" id="hero-badge">👋 Open to freelance opportunities</div>
+    <h1 id="hero-h1">I build things<br>for the <em>web</em> &amp;<br>beyond.</h1>
+    <p class="hero-sub" id="hero-sub">Full-stack developer &amp; designer based in Singapore. I turn ideas into products that people actually love to use.</p>
+    <div class="hero-ctas">
+      <a href="#projects" class="btn-primary">See my work</a>
+      <a href="#contact" class="btn-outline">Get in touch</a>
+    </div>
+  </div>
+  <div class="hero-avatar">
+    <div class="avatar-box" id="avatar-blob" onclick="handleAvatarClick()">
+      <img id="avatar-img" src="" style="display:none" alt="Profile photo">
+      <div id="avatar-placeholder">
+        <svg width="60" height="60" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="18" r="10" stroke="#c49a7a" stroke-width="2.5"/><path d="M6 42c0-9.94 8.06-18 18-18s18 8.06 18 18" stroke="#c49a7a" stroke-width="2.5" stroke-linecap="round"/></svg>
+        <p>Click to upload photo</p>
+      </div>
+      <span id="avatar-hint">Replace photo</span>
+    </div>
+    <input type="file" id="avatar-file" accept="image/*" style="display:none" onchange="loadAvatar(this)">
+  </div>
+</section>
+
+<section id="projects">
+  <div class="section-header">
+    <div><div class="section-label">Portfolio</div><div class="section-title">Selected Projects</div></div>
+    <button class="add-btn" onclick="openModal('project')"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Add Project</button>
+  </div>
+  <div class="projects-grid" id="projects-grid"></div>
+  <div class="see-more-container" id="projects-sm-box" style="display:none"><button class="see-more-btn" onclick="toggleSeeMore('projects')">See More Projects</button></div>
+</section>
+
+<section id="experience">
+  <div class="section-header">
+    <div><div class="section-label">Background</div><div class="section-title">Experience</div></div>
+    <button class="add-btn" onclick="openModal('exp')"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Add Experience</button>
+  </div>
+  <div class="exp-list" id="exp-list"></div>
+  <div class="see-more-container" id="experience-sm-box" style="display:none"><button class="see-more-btn" onclick="toggleSeeMore('experience')">See More Experience</button></div>
+</section>
+
+<section id="achievements">
+  <div class="section-header">
+    <div><div class="section-label">Milestones</div><div class="section-title">Achievements</div></div>
+    <button class="add-btn" onclick="openModal('ach')"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Add Achievement</button>
+  </div>
+  <div class="ach-list" id="ach-list"></div>
+  <div class="see-more-container" id="achievements-sm-box" style="display:none"><button class="see-more-btn" onclick="toggleSeeMore('achievements')">See More Achievements</button></div>
+</section>
+
+<section id="skills">
+  <div class="section-header">
+    <div><div class="section-label">Toolbox</div><div class="section-title">Skills &amp; Tools</div></div>
+    <button class="add-btn" onclick="openModal('skill')"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Add Skill</button>
+  </div>
+  <div class="skills-grid" id="skills-grid"></div>
+  <div class="see-more-container" id="skills-sm-box" style="display:none"><button class="see-more-btn" onclick="toggleSeeMore('skills')">See More Skills</button></div>
+</section>
+
+<section id="contact">
+  <div class="contact-grid">
+    <div class="contact-availability"><span class="pulse"></span><span id="c-availability">Available for freelance work</span></div>
+    <div class="section-label">Let's connect</div>
+    <div class="section-title" id="contact-h" style="margin-bottom:20px;">Have an idea?<br>Let's build it.</div>
+    <p class="contact-text" id="contact-text">I'm always open to interesting collaborations, freelance work, or just a good conversation about design and technology.</p>
+    <div class="contact-links">
+      <a href="#" class="contact-link"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m2 7 10 7 10-7"/></svg><span id="c-email">hello@alexrivera.com</span></a>
+      <a href="#" class="contact-link"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg><span id="c-linkedin">linkedin.com/in/alexrivera</span></a>
+      <a href="#" class="contact-link"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg><span id="c-github">github.com/alexrivera</span></a>
+    </div>
+    <div class="contact-divider"><div class="contact-divider-line"></div><div class="contact-divider-diamond"></div><div class="contact-divider-line"></div></div>
+    <p class="contact-quote" id="contact-quote">Good work takes time. Let's make something worth it.</p>
+    <div class="contact-divider"><div class="contact-divider-line"></div><div class="contact-divider-diamond"></div><div class="contact-divider-line"></div></div>
+  </div>
+</section>
+
+<footer>
+  <span>© <span id="footer-year">2025</span> <strong id="footer-name">Alex Rivera</strong>. All rights reserved.</span>
+  <span>Made with care ✦</span>
+</footer>
+
+<!-- PROJECT MODAL -->
+<div class="modal-overlay" id="project-modal">
+  <div class="modal">
+    <div class="modal-mode-tag" id="project-modal-tag">Adding new project</div>
+    <h3 id="project-modal-title">Add New Project</h3>
+    <div class="mf">
+      <label>Project Image</label>
+      <div class="file-drop" id="proj-drop" onclick="document.getElementById('proj-img-file').click()" ondragover="dOver(event,'proj-drop')" ondragleave="dLeave('proj-drop')" ondrop="dDrop(event,'proj-img-file','proj-drop')">📁 Drag &amp; drop or click to browse<input type="file" id="proj-img-file" accept="image/*" style="display:none" onchange="prevFile(this,'proj-drop')"></div>
+      <label>Tag / Category</label><input type="text" id="p-tag" placeholder="e.g. Web App, AI, Design...">
+      <label>Project Title</label><input type="text" id="p-title" placeholder="My Awesome Project">
+      <label>Description</label><textarea id="p-desc" placeholder="What did you build?"></textarea>
+      <label>Link (optional)</label><input type="url" id="p-link" placeholder="https://...">
+      <div class="modal-btns"><button class="m-cancel" onclick="closeModal('project')">Cancel</button><button class="m-save" id="project-save-btn" onclick="saveProject()">Add Project</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPERIENCE MODAL -->
+<div class="modal-overlay" id="exp-modal">
+  <div class="modal">
+    <div class="modal-mode-tag" id="exp-modal-tag">Adding new experience</div>
+    <h3 id="exp-modal-title">Add Experience</h3>
+    <div class="mf">
+      <label>Type</label><select id="e-type"><option>Internship</option><option>Full-time</option><option>Part-time</option><option>Volunteer</option><option>Freelance</option><option>Research</option><option>Education</option></select>
+      <label>Organisation / Company</label><input type="text" id="e-org" placeholder="e.g. Google, NUS, Red Cross...">
+      <label>Role / Position</label><input type="text" id="e-role" placeholder="e.g. Software Engineer Intern">
+      <label>Duration</label><input type="text" id="e-dur" placeholder="e.g. May – Aug 2024">
+      <label>Year</label><input type="text" id="e-year" placeholder="2024">
+      <label>Description (optional)</label><textarea id="e-desc" placeholder="What did you do?"></textarea>
+      <div class="modal-btns"><button class="m-cancel" onclick="closeModal('exp')">Cancel</button><button class="m-save" id="exp-save-btn" onclick="saveExp()">Add Experience</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ACHIEVEMENT MODAL -->
+<div class="modal-overlay" id="ach-modal">
+  <div class="modal">
+    <div class="modal-mode-tag" id="ach-modal-tag">Adding new achievement</div>
+    <h3 id="ach-modal-title">Add Achievement</h3>
+    <div class="mf">
+      <label>Emoji Icon</label><input type="text" id="a-icon" maxlength="4" placeholder="🏆" style="width:80px;font-size:22px;text-align:center">
+      <label>Year</label><input type="text" id="a-year" placeholder="2024">
+      <label>Title</label><input type="text" id="a-title" placeholder="Won Best Design Award">
+      <label>Description</label><textarea id="a-desc" placeholder="A bit more context..."></textarea>
+      <div class="modal-btns"><button class="m-cancel" onclick="closeModal('ach')">Cancel</button><button class="m-save" id="ach-save-btn" onclick="saveAch()">Add Achievement</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- SKILL MODAL -->
+<div class="modal-overlay" id="skill-modal">
+  <div class="modal">
+    <div class="modal-mode-tag" id="skill-modal-tag">Adding new skill</div>
+    <h3 id="skill-modal-title">Add Skill</h3>
+    <div class="mf">
+      <label>Emoji Icon</label><input type="text" id="s-icon" maxlength="4" placeholder="⚡" style="width:80px;font-size:22px;text-align:center">
+      <label>Skill Name</label><input type="text" id="s-name" placeholder="React, Figma, Python...">
+      <div class="modal-btns"><button class="m-cancel" onclick="closeModal('skill')">Cancel</button><button class="m-save" id="skill-save-btn" onclick="saveSkill()">Add Skill</button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+// ⚙️ CONFIG — fill these in before uploading
+// ══════════════════════════════════════════
+let GH_TOKEN = localStorage.getItem('gh_key') || '';
+const GH_USER = 'elgzermaluda';
+const GH_REPO = 'portfolio';
+const GH_FILE = 'data.json';
+const PW      = 'portfolio123';
+// ══════════════════════════════════════════
+
+const DEF = {
+  text:{}, avatar:null,
+  projects:[
+    {img:null,tag:'Web App',title:'Design System Builder',desc:'A drag-and-drop tool for creating and exporting consistent UI design systems. Used by 200+ teams worldwide.',link:'#'},
+    {img:null,tag:'AI / ML',title:'Smart Receipt Scanner',desc:'Mobile app using computer vision to automatically parse and categorise receipts for personal finance tracking.',link:'#'},
+    {img:null,tag:'Dashboard',title:'Analytics Platform',desc:'Real-time analytics dashboard for e-commerce brands with beautiful data visualisations and export tools.',link:'#'},
+  ],
+  experience:[
+    {type:'Internship',org:'Grab',role:'Software Engineer Intern',dur:'May – Aug 2024',year:'2024',desc:'Built internal tooling for the operations team, cutting manual processes by 40%.'},
+    {type:'Volunteer',org:'Code For Good',role:'Web Developer',dur:'Jan – Dec 2023',year:'2023',desc:'Designed and built websites for local nonprofits, helping 3 organisations establish their digital presence.'},
+    {type:'Research',org:'NUS School of Computing',role:'Undergraduate Researcher',dur:'Aug 2022 – May 2023',year:'2022',desc:'Assisted in research on AI-powered accessibility tools. Co-authored a paper on inclusive design.'},
+  ],
+  achievements:[
+    {icon:'🏆',year:'2024',title:'Best Final Year Project — NUS School of Computing',desc:'Awarded top honours for an AI-powered accessibility tool that assists visually impaired users.'},
+    {icon:'🎖️',year:'2023',title:'Hackathon Winner — HackSG 2023',desc:'First place in a 48-hour national hackathon with 150+ competing teams.'},
+    {icon:'📜',year:'2022',title:'AWS Certified Developer – Associate',desc:'Certified in cloud architecture, serverless computing, and deploying scalable applications on AWS.'},
+  ],
+  skills:[
+    {icon:'⚛️',name:'React / Next.js'},{icon:'🎨',name:'Figma'},{icon:'🐍',name:'Python'},
+    {icon:'☁️',name:'AWS'},{icon:'🗄️',name:'PostgreSQL'},{icon:'📱',name:'React Native'},
+    {icon:'🔧',name:'Node.js'},{icon:'🤖',name:'Machine Learning'},
+  ]
+};
+
+let isEdit=false, curProjImg=null, currentData={};
+let editingIndex = { project:null, exp:null, ach:null, skill:null };
+let showAll = { projects:false, experience:false, achievements:false, skills:false };
+
+// ── INIT ──────────────────────────────────────────────
+window.onload = async () => { currentData = await loadFromGitHub(); renderAll(); };
+
+// ── GITHUB ────────────────────────────────────────────
+async function loadFromGitHub() {
+  try {
+    const url = `https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/main/${GH_FILE}?t=${Date.now()}`;
+    const res = await fetch(url);
+    if(!res.ok) return JSON.parse(JSON.stringify(DEF));
+    return await res.json();
+  } catch(e) { return JSON.parse(JSON.stringify(DEF)); }
+}
+
+async function saveToGitHub() {
+  showStatus('Saving…');
+  try {
+    const apiUrl = `https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${GH_FILE}`;
+    const getRes = await fetch(apiUrl,{headers:{'Authorization':`token ${GH_TOKEN}`,'Accept':'application/vnd.github.v3+json'}});
+    let sha=null; if(getRes.ok){const j=await getRes.json();sha=j.sha;}
+    const content=btoa(unescape(encodeURIComponent(JSON.stringify(currentData,null,2))));
+    const body={message:'Update portfolio data',content,...(sha&&{sha})};
+    const putRes=await fetch(apiUrl,{method:'PUT',headers:{'Authorization':`token ${GH_TOKEN}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(!putRes.ok){const e=await putRes.json();throw new Error(e.message);}
+    showStatus('✅ Saved!'); setTimeout(()=>showStatus(''),2500);
+  } catch(e){ showStatus('❌ Save failed: '+e.message); }
+}
+
+function showStatus(msg){
+  let el=document.getElementById('save-status');
+  if(!el){el=document.createElement('div');el.id='save-status';el.style.cssText='font-size:12px;margin-top:10px;min-height:18px;font-weight:500;text-align:center;color:var(--accent)';document.getElementById('pw-box').appendChild(el);}
+  el.textContent=msg;
+}
+
+// ── PASSWORD & EDIT ───────────────────────────────────
+function handleEditToggle(){
+  if(isEdit){exitEdit();}
+  else{
+    if(!GH_TOKEN){
+      const input=prompt('Paste your GitHub Personal Access Token (ghp_...) with repo permissions:');
+      if(input){GH_TOKEN=input;localStorage.setItem('gh_key',input);}else return;
+    }
+    document.getElementById('pw-overlay').classList.add('open');
+    setTimeout(()=>document.getElementById('pw-input').focus(),100);
+    renderBackupList();
+  }
+}
+function checkPw(){if(document.getElementById('pw-input').value===PW){closePw();enterEdit();}else{document.getElementById('pw-error').textContent='Incorrect password, try again.';document.getElementById('pw-input').value='';}}
+function closePw(){document.getElementById('pw-overlay').classList.remove('open');document.getElementById('pw-input').value='';document.getElementById('pw-error').textContent='';}
+function enterEdit(){isEdit=true;document.body.classList.add('edit-mode');document.getElementById('edit-toggle').classList.add('editing');document.getElementById('edit-label').textContent='Done Editing';enableCE();renderAll();}
+async function exitEdit(){saveTextEdits();saveBackup();isEdit=false;document.body.classList.remove('edit-mode');document.getElementById('edit-toggle').classList.remove('editing');document.getElementById('edit-label').textContent='Edit Portfolio';disableCE();await saveToGitHub();renderAll();}
+
+// ── CONTENTEDITABLE ───────────────────────────────────
+const CE_IDS=['nav-name','hero-badge','hero-h1','hero-sub','contact-h','contact-text','c-availability','c-email','c-linkedin','c-github','contact-quote','footer-year','footer-name'];
+function enableCE(){CE_IDS.forEach(id=>{const e=document.getElementById(id);if(e)e.contentEditable='true';});}
+function disableCE(){CE_IDS.forEach(id=>{const e=document.getElementById(id);if(e)e.contentEditable='false';});}
+function saveTextEdits(){if(!currentData.text)currentData.text={};CE_IDS.forEach(id=>{const e=document.getElementById(id);if(e)currentData.text[id]=e.innerHTML;});}
+
+// ── BACKUPS ───────────────────────────────────────────
+const BACKUP_KEY='pf_backups',MAX_BACKUPS=3;
+function saveBackup(){try{const b=getBackups();b.push({ts:Date.now(),label:new Date().toLocaleString('en-SG',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}),data:JSON.parse(JSON.stringify(currentData))});if(b.length>MAX_BACKUPS)b.shift();localStorage.setItem(BACKUP_KEY,JSON.stringify(b));}catch(e){}}
+function getBackups(){try{return JSON.parse(localStorage.getItem(BACKUP_KEY))||[];}catch(e){return[];}}
+function renderBackupList(){
+  const b=getBackups(),list=document.getElementById('backup-list');
+  if(!b.length){list.innerHTML='<div id="no-backups">No backups yet — created automatically on each save.</div>';return;}
+  list.innerHTML=[...b].reverse().map((x,i)=>`<div class="backup-item"><div class="backup-meta">Backup ${b.length-i}<span>${x.label}</span></div><button class="backup-restore-btn" onclick="restoreBackup(${b.length-1-i})">Restore</button></div>`).join('');
+}
+async function restoreBackup(i){
+  const b=getBackups();if(!b[i])return;
+  if(!confirm(`Restore backup from ${b[i].label}? Current data will be overwritten.`))return;
+  currentData=JSON.parse(JSON.stringify(b[i].data));
+  await saveToGitHub();closePw();renderAll();
+}
+
+// ── RENDER ────────────────────────────────────────────
+function renderAll(){
+  const d=currentData;
+  CE_IDS.forEach(id=>{if(d.text&&d.text[id]){const e=document.getElementById(id);if(e)e.innerHTML=d.text[id];}});
+  if(d.avatar){document.getElementById('avatar-img').src=d.avatar+'?t='+Date.now();document.getElementById('avatar-img').style.display='block';document.getElementById('avatar-placeholder').style.display='none';}
+  renderProjects(d.projects||[]);renderExp(d.experience||[]);renderAch(d.achievements||[]);renderSkills(d.skills||[]);
+  if(isEdit)enableCE();
+}
+
+function actionBtns(sec, i) {
+  return `<div class="card-actions">
+    <button class="btn-edit" onclick="openEditModal('${sec}',${i})" title="Edit">✏️</button>
+    <button class="btn-move" onclick="moveItem('${sec}',${i},-1)" title="Move up">↑</button>
+    <button class="btn-move" onclick="moveItem('${sec}',${i},1)" title="Move down">↓</button>
+    <button class="btn-del" onclick="delItem('${sec}',${i})" title="Delete">✕</button>
+  </div>`;
+}
+
+function toggleSeeMore(sec){showAll[sec]=true;renderAll();}
+function moveItem(sec,i,dir){const list=currentData[sec];const ni=i+dir;if(ni<0||ni>=list.length)return;[list[i],list[ni]]=[list[ni],list[i]];renderAll();}
+
+function renderProjects(list){
+  const limit=4,showList=showAll.projects?list:list.slice(0,limit);
+  document.getElementById('projects-grid').innerHTML=showList.map((p,i)=>`
+    <div class="project-card">
+      ${actionBtns('projects',i)}
+      <div class="project-img">
+        ${p.img?`<img src="${p.img}" alt="">`:`<div class="project-img-ph">📁</div>`}
+        <div class="img-overlay" onclick="replaceImg(${i})">📷 Replace image</div>
+      </div>
+      <div class="project-body">
+        <div class="project-tag">${p.tag||''}</div>
+        <div class="project-title">${p.title}</div>
+        <div class="project-desc">${p.desc}</div>
+        ${p.link?`<a href="${p.link}" class="project-link" target="_blank">View project →</a>`:''}
+      </div>
+    </div>`).join('');
+  document.getElementById('projects-sm-box').style.display=(!showAll.projects&&list.length>limit)?'flex':'none';
+}
+
+function renderExp(list){
+  const limit=4,showList=showAll.experience?list:list.slice(0,limit);
+  document.getElementById('exp-list').innerHTML=showList.map((e,i)=>`
+    <div class="exp-item">
+      <div class="exp-left"><div class="exp-year">${e.year}</div><div class="exp-duration">${e.dur}</div></div>
+      <div class="exp-right"><div class="exp-dot"></div>
+        <div class="exp-card">
+          ${actionBtns('experience',i)}
+          <div class="exp-org">${e.org}</div>
+          <div class="exp-role">${e.role}</div>
+          <span class="exp-type-badge">${e.type}</span>
+          ${e.desc?`<div class="exp-desc">${e.desc}</div>`:''}
+        </div>
+      </div>
+    </div>`).join('');
+  document.getElementById('experience-sm-box').style.display=(!showAll.experience&&list.length>limit)?'flex':'none';
+}
+
+function renderAch(list){
+  const limit=4,showList=showAll.achievements?list:list.slice(0,limit);
+  document.getElementById('ach-list').innerHTML=showList.map((a,i)=>`
+    <div class="ach-card">
+      ${actionBtns('achievements',i)}
+      <div class="ach-icon">${a.icon}</div>
+      <div><div class="ach-year">${a.year}</div><div class="ach-title">${a.title}</div><div class="ach-desc">${a.desc}</div></div>
+    </div>`).join('');
+  document.getElementById('achievements-sm-box').style.display=(!showAll.achievements&&list.length>limit)?'flex':'none';
+}
+
+function renderSkills(list){
+  const limit=8,showList=showAll.skills?list:list.slice(0,limit);
+  document.getElementById('skills-grid').innerHTML=showList.map((s,i)=>`
+    <div class="skill-chip" style="position:relative;">
+      ${actionBtns('skills',i)}
+      <span class="skill-icon">${s.icon}</span><span>${s.name}</span>
+    </div>`).join('');
+  document.getElementById('skills-sm-box').style.display=(!showAll.skills&&list.length>limit)?'flex':'none';
+}
+
+// ── EDIT EXISTING ITEMS ───────────────────────────────
+function openEditModal(sec, i) {
+  if(sec==='projects'){
+    const p=currentData.projects[i];
+    editingIndex.project=i;
+    document.getElementById('project-modal-tag').textContent='Editing existing project';
+    document.getElementById('project-modal-title').textContent='Edit Project';
+    document.getElementById('project-save-btn').textContent='Save Changes';
+    document.getElementById('p-tag').value=p.tag||'';
+    document.getElementById('p-title').value=p.title||'';
+    document.getElementById('p-desc').value=p.desc||'';
+    document.getElementById('p-link').value=p.link||'';
+    const drop=document.getElementById('proj-drop');
+    drop.innerHTML=p.img?`<img src="${p.img}" style="max-height:80px;border-radius:8px;object-fit:cover;width:100%"><input type="file" id="proj-img-file" accept="image/*" style="display:none" onchange="prevFile(this,'proj-drop')">`:`📁 Drag & drop or click to browse<input type="file" id="proj-img-file" accept="image/*" style="display:none" onchange="prevFile(this,'proj-drop')">`;
+    drop.style.padding=p.img?'8px':'18px';
+    curProjImg=null;
+    document.getElementById('project-modal').classList.add('open');
+  } else if(sec==='experience'){
+    const e=currentData.experience[i];
+    editingIndex.exp=i;
+    document.getElementById('exp-modal-tag').textContent='Editing existing experience';
+    document.getElementById('exp-modal-title').textContent='Edit Experience';
+    document.getElementById('exp-save-btn').textContent='Save Changes';
+    document.getElementById('e-type').value=e.type||'Internship';
+    document.getElementById('e-org').value=e.org||'';
+    document.getElementById('e-role').value=e.role||'';
+    document.getElementById('e-dur').value=e.dur||'';
+    document.getElementById('e-year').value=e.year||'';
+    document.getElementById('e-desc').value=e.desc||'';
+    document.getElementById('exp-modal').classList.add('open');
+  } else if(sec==='achievements'){
+    const a=currentData.achievements[i];
+    editingIndex.ach=i;
+    document.getElementById('ach-modal-tag').textContent='Editing existing achievement';
+    document.getElementById('ach-modal-title').textContent='Edit Achievement';
+    document.getElementById('ach-save-btn').textContent='Save Changes';
+    document.getElementById('a-icon').value=a.icon||'';
+    document.getElementById('a-year').value=a.year||'';
+    document.getElementById('a-title').value=a.title||'';
+    document.getElementById('a-desc').value=a.desc||'';
+    document.getElementById('ach-modal').classList.add('open');
+  } else if(sec==='skills'){
+    const s=currentData.skills[i];
+    editingIndex.skill=i;
+    document.getElementById('skill-modal-tag').textContent='Editing existing skill';
+    document.getElementById('skill-modal-title').textContent='Edit Skill';
+    document.getElementById('skill-save-btn').textContent='Save Changes';
+    document.getElementById('s-icon').value=s.icon||'';
+    document.getElementById('s-name').value=s.name||'';
+    document.getElementById('skill-modal').classList.add('open');
+  }
+}
+
+function resetModal(type){
+  if(type==='project'){editingIndex.project=null;document.getElementById('project-modal-tag').textContent='Adding new project';document.getElementById('project-modal-title').textContent='Add New Project';document.getElementById('project-save-btn').textContent='Add Project';curProjImg=null;const drop=document.getElementById('proj-drop');drop.innerHTML='📁 Drag & drop or click to browse<input type="file" id="proj-img-file" accept="image/*" style="display:none" onchange="prevFile(this,\'proj-drop\')">';drop.style.padding='18px';}
+  if(type==='exp'){editingIndex.exp=null;document.getElementById('exp-modal-tag').textContent='Adding new experience';document.getElementById('exp-modal-title').textContent='Add Experience';document.getElementById('exp-save-btn').textContent='Add Experience';}
+  if(type==='ach'){editingIndex.ach=null;document.getElementById('ach-modal-tag').textContent='Adding new achievement';document.getElementById('ach-modal-title').textContent='Add Achievement';document.getElementById('ach-save-btn').textContent='Add Achievement';}
+  if(type==='skill'){editingIndex.skill=null;document.getElementById('skill-modal-tag').textContent='Adding new skill';document.getElementById('skill-modal-title').textContent='Add Skill';document.getElementById('skill-save-btn').textContent='Add Skill';}
+}
+
+// ── MODALS ────────────────────────────────────────────
+function openModal(t){resetModal(t);document.getElementById(`${t}-modal`).classList.add('open');}
+function closeModal(t){document.getElementById(`${t}-modal`).classList.remove('open');resetModal(t);['p-tag','p-title','p-desc','p-link','e-org','e-role','e-dur','e-year','e-desc','a-icon','a-year','a-title','a-desc','s-icon','s-name'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});}
+document.querySelectorAll('.modal-overlay').forEach(el=>el.addEventListener('click',e=>{if(e.target===el){const id=el.id.replace('-modal','').replace('-overlay','');if(id==='pw')closePw();else closeModal(el.id.replace('-modal',''));}}));
+
+// ── SAVE / UPDATE ITEMS ───────────────────────────────
+async function saveProject(){
+  const fileInput=document.getElementById('proj-img-file');
+  const file=fileInput?fileInput.files[0]:null;
+  let imageUrl=editingIndex.project!==null?currentData.projects[editingIndex.project].img:null;
+  if(file||curProjImg){
+    if(file){
+      showStatus('Uploading image…');
+      const fileName=`img_${Date.now()}_${file.name.replace(/\s+/g,'_')}`;
+      const filePath=`assets/${fileName}`;
+      const reader=new FileReader();
+      const b64=await new Promise(res=>{reader.onload=()=>res(reader.result.split(',')[1]);reader.readAsDataURL(file);});
+      const imgRes=await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${filePath}`,{method:'PUT',headers:{'Authorization':`token ${GH_TOKEN}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify({message:`Upload image: ${fileName}`,content:b64})});
+      if(imgRes.ok)imageUrl=`https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/main/${filePath}`;
+    } else if(curProjImg){imageUrl=curProjImg;}
+  }
+  const item={img:imageUrl,tag:document.getElementById('p-tag').value||'Project',title:document.getElementById('p-title').value||'Untitled',desc:document.getElementById('p-desc').value||'',link:document.getElementById('p-link').value||null};
+  if(editingIndex.project!==null){currentData.projects[editingIndex.project]=item;}
+  else{currentData.projects.unshift(item);} // ← newest first
+  closeModal('project');renderAll();
+  showStatus('Image synced! Saving…');await saveToGitHub();
+}
+
+function saveExp(){
+  const item={type:document.getElementById('e-type').value,org:document.getElementById('e-org').value||'Org',role:document.getElementById('e-role').value||'Role',dur:document.getElementById('e-dur').value||'',year:document.getElementById('e-year').value||'',desc:document.getElementById('e-desc').value||''};
+  if(editingIndex.exp!==null){currentData.experience[editingIndex.exp]=item;}
+  else{currentData.experience.unshift(item);} // ← newest first
+  closeModal('exp');renderAll();
+}
+
+function saveAch(){
+  const item={icon:document.getElementById('a-icon').value||'🏅',year:document.getElementById('a-year').value||'2024',title:document.getElementById('a-title').value||'Achievement',desc:document.getElementById('a-desc').value||''};
+  if(editingIndex.ach!==null){currentData.achievements[editingIndex.ach]=item;}
+  else{currentData.achievements.unshift(item);} // ← newest first
+  closeModal('ach');renderAll();
+}
+
+function saveSkill(){
+  const item={icon:document.getElementById('s-icon').value||'⚡',name:document.getElementById('s-name').value||'Skill'};
+  if(editingIndex.skill!==null){currentData.skills[editingIndex.skill]=item;}
+  else{currentData.skills.unshift(item);} // ← newest first
+  closeModal('skill');renderAll();
+}
+
+// ── ACTIONS ───────────────────────────────────────────
+function delItem(sec,i){if(!confirm('Remove this item?'))return;currentData[sec].splice(i,1);renderAll();}
+function handleAvatarClick(){if(isEdit)document.getElementById('avatar-file').click();}
+
+async function loadAvatar(inp){
+  const file=inp.files[0];if(!file)return;
+  showStatus('Uploading avatar…');
+  const fileName=`avatar_${Date.now()}_${file.name.replace(/\s+/g,'_')}`;
+  const filePath=`assets/${fileName}`;
+  const reader=new FileReader();
+  const b64=await new Promise(res=>{reader.onload=()=>res(reader.result.split(',')[1]);reader.readAsDataURL(file);});
+  const imgRes=await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${filePath}`,{method:'PUT',headers:{'Authorization':`token ${GH_TOKEN}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify({message:`Upload avatar: ${fileName}`,content:b64})});
+  if(imgRes.ok){
+    const url=`https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/main/${filePath}`;
+    currentData.avatar=url;
+    document.getElementById('avatar-img').src=url+'?t='+Date.now();
+    document.getElementById('avatar-img').style.display='block';
+    document.getElementById('avatar-placeholder').style.display='none';
+    showStatus('Avatar updated! Saving…');await saveToGitHub();
+  }else{showStatus('❌ Avatar upload failed');}
+}
+
+async function replaceImg(i){
+  if(!isEdit)return;
+  const inp=document.createElement('input');inp.type='file';inp.accept='image/*';
+  inp.onchange=async e=>{
+    const f=e.target.files[0];if(!f)return;
+    showStatus('Replacing image…');
+    const fileName=`img_${Date.now()}_${f.name.replace(/\s+/g,'_')}`;
+    const filePath=`assets/${fileName}`;
+    const reader=new FileReader();
+    const b64=await new Promise(res=>{reader.onload=()=>res(reader.result.split(',')[1]);reader.readAsDataURL(f);});
+    const imgRes=await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${filePath}`,{method:'PUT',headers:{'Authorization':`token ${GH_TOKEN}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify({message:`Replace image: ${fileName}`,content:b64})});
+    if(imgRes.ok){currentData.projects[i].img=`https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/main/${filePath}`;renderAll();showStatus('Replaced! Saving…');await saveToGitHub();}
+    else{showStatus('❌ Replace failed');}
+  };
+  inp.click();
+}
+
+function dOver(e,id){e.preventDefault();document.getElementById(id).classList.add('drag-over');}
+function dLeave(id){document.getElementById(id).classList.remove('drag-over');}
+function dDrop(e,iid,did){e.preventDefault();dLeave(did);const f=e.dataTransfer.files[0];if(f&&f.type.startsWith('image/'))readImg(f,did,iid);}
+function prevFile(inp,did){if(inp.files[0])readImg(inp.files[0],did,inp.id);}
+function readImg(f,did,iid){const r=new FileReader();r.onload=e=>{curProjImg=e.target.result;const d=document.getElementById(did);d.innerHTML=`<img src="${e.target.result}" style="max-height:80px;border-radius:8px;object-fit:cover;width:100%"><input type="file" id="${iid}" accept="image/*" style="display:none" onchange="prevFile(this,'${did}')">`;d.style.padding='8px';};r.readAsDataURL(f);}
+</script>
+</body>
+</html>
