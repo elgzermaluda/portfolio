@@ -17,7 +17,7 @@
   "avatar": "https://raw.githubusercontent.com/elgzermaluda/portfolio/main/assets/avatar_1774597104288_undefined_(2).png",
   "projects": [
     {
-      "img": null,
+      "img": "https://raw.githubusercontent.com/elgzermaluda/portfolio/main/assets/img_1774597136650_portfolio.png",
       "tag": "Web Development",
       "title": "Personal Portfolio Website (Easy-Update)",
       "desc": "A streamlined personal website hosted on GitHub designed for quick content updates. It uses an automated setup that pushes changes live instantly whenever a file is edited, removing the need for manual deployment or complex coding.",
