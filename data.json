@@ -17,6 +17,13 @@
   "avatar": "https://raw.githubusercontent.com/elgzermaluda/portfolio/main/assets/avatar_1774597104288_undefined_(2).png",
   "projects": [
     {
+      "img": null,
+      "tag": "Project",
+      "title": "KampusGigs",
+      "desc": "",
+      "link": null
+    },
+    {
       "img": "https://raw.githubusercontent.com/elgzermaluda/portfolio/main/assets/img_1774597136650_portfolio.png",
       "tag": "Web Development",
       "title": "Personal Portfolio Website (Easy-Update)",
@@ -69,10 +76,16 @@
   "experience": [],
   "achievements": [
     {
+      "icon": "📜",
+      "year": "2026",
+      "title": "Invited Panelist Recognition (Jelajah IT Program)",
+      "desc": "Recognized as one of 3 invited panelist for the Beyond the Hype: IT vs CS forum during the Jelajah IT community program. Selected to represent the Data Science cohort, contributing insights on academic pathways, industry relevance, and emerging trends in IT and Computer Science while engaging with students through an interactive discussion and Q&A session."
+    },
+    {
       "icon": "🏆",
       "year": "2026",
       "title": "Grand Prize Winner for Idea Competition (IT For Community)",
-      "desc": "Developed a specialized IoT device for the Kampung Kolopis community that functions without WiFi or mobile networks. The project outperformed international teams from UNDIP, Indonesia to become the #1 Grand Prize Winner after advancing through a competitive pool to the Top 5 Finalists, which is out of over 30 teams."
+      "desc": "Developed a specialized IoT device for the Kampung Kolopis community that functions without WiFi or mobile networks. The project outperformed international teams from UNDIP, Indonesia to become the #1 Grand Prize Winner after advancing through a competitive pool to the Top 5 Finalists, which was out of over 30 teams consisting more than 100+ students."
     },
     {
       "icon": "🏆",
@@ -84,7 +97,7 @@
       "icon": "🏆",
       "year": "2025",
       "title": "Gold Award & Best Project Award at EIS",
-      "desc": "A premier award-winning project recognized for innovation in Food Security and Agropreneurship at the 2025 Entrepreneurial & Innovation Student Competition. Out of a competitive field at the Sabah Festival of Ideas, this AI-driven platform earned both the Gold Award and the Best Project Award for its practical approach to empowering farmers with sustainable, data-backed insights."
+      "desc": "Agribuddy has become a premier award-winning project recognized for innovation in Food Security and Agropreneurship at the 2025 Entrepreneurial & Innovation Student Competition. Out of a competitive field at the Sabah Festival of Ideas, this AI-driven platform earned both the Gold Award and the Best Project Award (The best award for the category) for its practical approach to empowering farmers with sustainable, data-backed insights."
     },
     {
       "icon": "🏆",
@@ -111,25 +124,25 @@
       "desc": "The highest academic honor awarded to the single top-ranking student in the Foundation in IT program at Universiti Malaysia Sabah. Out of the entire cohort, only 1 student receives this recognition for maintaining the #1 spot through exceptional performance and leadership."
     },
     {
-      "icon": "📜",
+      "icon": "🏅",
       "year": "2022",
       "title": "UMS IT Project Excellence Award",
       "desc": "A top-tier recognition awarded for the highest-rated final semester project during the Foundation in IT program at Universiti Malaysia Sabah (UMS). This award is given to the project that demonstrates superior technical implementation, innovation, and overall execution among the graduating cohort."
     },
     {
-      "icon": "📜",
+      "icon": "🏅",
       "year": "2022",
       "title": "UMS First Class Honors Award",
       "desc": "A prestigious recognition awarded for achieving a CGPA of 3.67 or higher at Universiti Malaysia Sabah. This honor is reserved for the top tier of graduates who consistently maintain elite academic standards throughout their degree program."
     },
     {
-      "icon": "📜",
+      "icon": "🏅",
       "year": "2020",
       "title": "Monash High Achiever Award",
       "desc": "A merit-based recognition awarded for maintaining a 90% academic average during the Monash University Foundation Year (MUFY) at Sunway College. This honor reflects consistent high performance and a strong foundation in core academic disciplines."
     },
     {
-      "icon": "📜",
+      "icon": "🏅",
       "year": "2020",
       "title": "Monash Award of Excellence",
       "desc": "A top-tier academic honor awarded for achieving the highest overall grade in a specific subject during the Monash University Foundation Year. This award recognizes the number one ranking student for their exceptional performance and subject mastery."
