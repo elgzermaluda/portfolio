@@ -17,6 +17,13 @@
   "avatar": "https://raw.githubusercontent.com/elgzermaluda/portfolio/main/assets/avatar_1774597104288_undefined_(2).png",
   "projects": [
     {
+      "img": null,
+      "tag": "Project",
+      "title": "BAHnjir (Mobile Application)",
+      "desc": "",
+      "link": null
+    },
+    {
       "img": "https://raw.githubusercontent.com/elgzermaluda/portfolio/main/assets/img_1774599693530_Screenshot_2026-03-27_162125.png",
       "tag": "Project",
       "title": "WanderBalance",
