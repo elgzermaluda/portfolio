@@ -31,7 +31,7 @@
       "link": "https://theagribuddy.com/"
     },
     {
-      "img": null,
+      "img": "https://raw.githubusercontent.com/elgzermaluda/portfolio/main/assets/img_1774596233743_Screenshot_2026-03-27_152340.png",
       "tag": "Machine Learning / Fisheries Science",
       "title": "Machine Learning for Sustainable Marine Resources",
       "desc": "A research project developing a Sequential Hybrid regression framework to forecast fisheries stock trends. The model outperformed existing industry benchmarks in predictive accuracy, contributing to SDG 14 (Life Below Water) by providing a data-driven tool for marine risk assessment and sustainable resource management.",
