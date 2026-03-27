@@ -24,7 +24,7 @@
       "link": "https://elgzermaluda.github.io/portfolio"
     },
     {
-      "img": null,
+      "img": "https://raw.githubusercontent.com/elgzermaluda/portfolio/main/assets/img_1774595148314_agribuddy.png",
       "tag": "AI Mobile Application Development",
       "title": "Agribuddy (YSEALI Seeds for the Future 2025)",
       "desc": "An AI-powered crop management platform designed to help Malaysian farmers optimize yields and adopt sustainable practices. The project combines a mobile application with data-driven tools and hands-on training to simplify digital transformation in local farming communities.",
