@@ -31,79 +31,8 @@
       "link": "https://theagribuddy.com/"
     }
   ],
-  "experience": [
-    {
-      "type": "Internship",
-      "org": "Grab",
-      "role": "Software Engineer Intern",
-      "dur": "May – Aug 2024",
-      "year": "2024",
-      "desc": "Built internal tooling for the operations team, cutting manual processes by 40%."
-    },
-    {
-      "type": "Volunteer",
-      "org": "Code For Good",
-      "role": "Web Developer",
-      "dur": "Jan – Dec 2023",
-      "year": "2023",
-      "desc": "Designed and built websites for local nonprofits, helping 3 organisations establish their digital presence."
-    },
-    {
-      "type": "Internship",
-      "org": "thueht",
-      "role": "ahsgdugiasda",
-      "dur": "2021",
-      "year": "20023",
-      "desc": ""
-    },
-    {
-      "type": "Research",
-      "org": "NUS School of Computing",
-      "role": "Undergraduate Researcher",
-      "dur": "Aug 2022 – May 2023",
-      "year": "2022",
-      "desc": "Assisted in research on AI-powered accessibility tools. Co-authored a paper on inclusive design."
-    },
-    {
-      "type": "Internship",
-      "org": "testa",
-      "role": "testa",
-      "dur": "testa",
-      "year": "testa",
-      "desc": "testa"
-    },
-    {
-      "type": "Internship",
-      "org": "Org",
-      "role": "Role",
-      "dur": "",
-      "year": "",
-      "desc": ""
-    },
-    {
-      "type": "Internship",
-      "org": "Org",
-      "role": "Role",
-      "dur": "",
-      "year": "",
-      "desc": ""
-    },
-    {
-      "type": "Internship",
-      "org": "Org",
-      "role": "Role",
-      "dur": "",
-      "year": "",
-      "desc": ""
-    }
-  ],
+  "experience": [],
   "achievements": [
-    {
-      "icon": "🏆",
-      "year": "2024",
-      "title": "Best Final Year Project — NUS School of Computing",
-      "desc": "Awarded top honours for an AI-powered accessibility tool that assists visually impaired users."
-    },
     {
       "icon": "🎖️",
       "year": "2023",
@@ -115,12 +44,6 @@
       "year": "2022",
       "title": "AWS Certified Developer – Associate",
       "desc": "Certified in cloud architecture, serverless computing, and deploying scalable applications on AWS."
-    },
-    {
-      "icon": "🏅",
-      "year": "2024",
-      "title": "Achievement",
-      "desc": ""
     },
     {
       "icon": "🏅",
