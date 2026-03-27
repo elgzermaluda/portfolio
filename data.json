@@ -145,32 +145,20 @@
       "name": "Python"
     },
     {
-      "icon": "☁️",
-      "name": "AWS"
-    },
-    {
-      "icon": "🗄️",
-      "name": "PostgreSQL"
-    },
-    {
-      "icon": "📱",
-      "name": "React Native"
-    },
-    {
-      "icon": "🔧",
-      "name": "Node.js"
-    },
-    {
       "icon": "🤖",
       "name": "Machine Learning"
     },
     {
-      "icon": "⚡",
-      "name": "Skill"
+      "icon": "🖥️",
+      "name": "SQL"
     },
     {
-      "icon": "⚡",
-      "name": "Skill"
+      "icon": "🔮",
+      "name": "Predictive Modelling"
+    },
+    {
+      "icon": "📊",
+      "name": "Data Analytics"
     }
   ]
 }
