@@ -34,16 +34,22 @@
   "experience": [],
   "achievements": [
     {
-      "icon": "🎖️",
-      "year": "2023",
-      "title": "Hackathon Winner — HackSG 2023",
-      "desc": "First place in a 48-hour national hackathon with 150+ competing teams."
+      "icon": "🏆",
+      "year": "2025",
+      "title": "Gold Award & Best Project Award at EIS",
+      "desc": "A premier award-winning project recognized for innovation in Food Security and Agropreneurship at the 2025 Entrepreneurial & Innovation Student Competition. Out of a competitive field at the Sabah Festival of Ideas, this AI-driven platform earned both the Gold Award and the Best Project Award for its practical approach to empowering farmers with sustainable, data-backed insights."
     },
     {
-      "icon": "📜",
-      "year": "2022",
-      "title": "AWS Certified Developer – Associate",
-      "desc": "Certified in cloud architecture, serverless computing, and deploying scalable applications on AWS."
+      "icon": "🏆",
+      "year": "2025",
+      "title": "YSEALI Seeds for the Future 2025 Grant Recipient",
+      "desc": "A grant-funded project focused on regional development and social impact. Our project (Agribuddy) involved coordinating with multiple partners and volunteers to hit key milestones, ultimately delivering measurable outcomes for youth leaders and local beneficiaries within the community."
+    },
+    {
+      "icon": "🏅",
+      "year": "2024",
+      "title": "Best Pitching Team (TechTrek Innovators Pitch)",
+      "desc": "A mobile application designed for flood risk mitigation and prevention, developed during an intensive 30-hour challenge at TARUMT. The project outcompeted multiple teams to win the \"Best Pitching Award,\" recognized for its practical approach to disaster management and a high-impact presentation to a panel of industry sponsors."
     },
     {
       "icon": "🏅",
@@ -53,9 +59,33 @@
     },
     {
       "icon": "🏆",
-      "year": "2025",
-      "title": "YSEALI Seeds for the Future 2025 Grant Recipient",
-      "desc": "A grant-funded project focused on regional development and social impact. Our project (Agribuddy) involved coordinating with multiple partners and volunteers to hit key milestones, ultimately delivering measurable outcomes for youth leaders and local beneficiaries within the community."
+      "year": "2022",
+      "title": "UMS Director's Award",
+      "desc": "The highest academic honor awarded to the single top-ranking student in the Foundation in IT program at Universiti Malaysia Sabah. Out of the entire cohort, only 1 student receives this recognition for maintaining the #1 spot through exceptional performance and leadership."
+    },
+    {
+      "icon": "📜",
+      "year": "2022",
+      "title": "UMS IT Project Excellence Award",
+      "desc": "A top-tier recognition awarded for the highest-rated final semester project during the Foundation in IT program at Universiti Malaysia Sabah (UMS). This award is given to the project that demonstrates superior technical implementation, innovation, and overall execution among the graduating cohort."
+    },
+    {
+      "icon": "📜",
+      "year": "2022",
+      "title": "UMS First Class Honors Award",
+      "desc": "A prestigious recognition awarded for achieving a CGPA of 3.67 or higher at Universiti Malaysia Sabah. This honor is reserved for the top tier of graduates who consistently maintain elite academic standards throughout their degree program."
+    },
+    {
+      "icon": "📜",
+      "year": "2020",
+      "title": "Monash High Achiever Award",
+      "desc": "A merit-based recognition awarded for maintaining a 90% academic average during the Monash University Foundation Year (MUFY) at Sunway College. This honor reflects consistent high performance and a strong foundation in core academic disciplines."
+    },
+    {
+      "icon": "📜",
+      "year": "2020",
+      "title": "Monash Award of Excellence",
+      "desc": "A top-tier academic honor awarded for achieving the highest overall grade in a specific subject during the Monash University Foundation Year. This award recognizes the number one ranking student for their exceptional performance and subject mastery."
     }
   ],
   "skills": [
