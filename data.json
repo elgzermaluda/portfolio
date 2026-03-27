@@ -19,8 +19,8 @@
     {
       "img": null,
       "tag": "Web Development",
-      "title": "Easy-Edit Portfolio Website",
-      "desc": "A personal website hosted on GitHub that updates automatically. I built it so I can just edit a file to change the content without having to deal with manual deployments or complex code every time.",
+      "title": "Easy-Update Personal Portfolio Website",
+      "desc": "A streamlined personal website hosted on GitHub designed for quick content updates. It uses an automated setup that pushes changes live instantly whenever a file is edited, removing the need for manual deployment or complex coding.",
       "link": "https://elgzermaluda.github.io/portfolio"
     }
   ],
