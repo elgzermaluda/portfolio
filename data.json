@@ -1,0 +1,121 @@
+{
+  "text": {
+    "nav-name": "Alex Rivera",
+    "hero-badge": "👋 Open to freelance opportunities",
+    "hero-h1": "I build things<br>for theasdasdas&nbsp;<em>web</em> &amp;<br>beyond.",
+    "hero-sub": "Full-stack developer &amp; designer based in Singapore. I turn ideas into products that people actually love to use.",
+    "contact-h": "Have an idea?<br>Let's build it.",
+    "contact-text": "I'm always open to interesting collaborations, freelance work, or just a good conversation about design and technology.",
+    "c-availability": "Available for freelance work",
+    "c-email": "hello@alexrivera.com",
+    "c-linkedin": "linkedin.com/in/alexrivera",
+    "c-github": "github.com/alexrivera",
+    "contact-quote": "Good work takes time. Let's make something worth it.",
+    "footer-year": "2025",
+    "footer-name": "Alex Rivera"
+  },
+  "avatar": null,
+  "projects": [
+    {
+      "img": null,
+      "tag": "Web App",
+      "title": "Design System Builder",
+      "desc": "A drag-and-drop tool for creating and exporting consistent UI design systems. Used by 200+ teams worldwide.",
+      "link": "#"
+    },
+    {
+      "img": null,
+      "tag": "AI / ML",
+      "title": "Smart Receipt Scanner",
+      "desc": "Mobile app using computer vision to automatically parse and categorise receipts for personal finance tracking.",
+      "link": "#"
+    },
+    {
+      "img": null,
+      "tag": "Dashboard",
+      "title": "Analytics Platform",
+      "desc": "Real-time analytics dashboard for e-commerce brands with beautiful data visualisations and export tools.",
+      "link": "#"
+    }
+  ],
+  "experience": [
+    {
+      "type": "Internship",
+      "org": "Grab",
+      "role": "Software Engineer Intern",
+      "dur": "May – Aug 2024",
+      "year": "2024",
+      "desc": "Built internal tooling for the operations team, cutting manual processes by 40%."
+    },
+    {
+      "type": "Volunteer",
+      "org": "Code For Good",
+      "role": "Web Developer",
+      "dur": "Jan – Dec 2023",
+      "year": "2023",
+      "desc": "Designed and built websites for local nonprofits, helping 3 organisations establish their digital presence."
+    },
+    {
+      "type": "Research",
+      "org": "NUS School of Computing",
+      "role": "Undergraduate Researcher",
+      "dur": "Aug 2022 – May 2023",
+      "year": "2022",
+      "desc": "Assisted in research on AI-powered accessibility tools. Co-authored a paper on inclusive design."
+    }
+  ],
+  "achievements": [
+    {
+      "icon": "🏆",
+      "year": "2024",
+      "title": "Best Final Year Project — NUS School of Computing",
+      "desc": "Awarded top honours for an AI-powered accessibility tool that assists visually impaired users."
+    },
+    {
+      "icon": "🎖️",
+      "year": "2023",
+      "title": "Hackathon Winner — HackSG 2023",
+      "desc": "First place in a 48-hour national hackathon with 150+ competing teams."
+    },
+    {
+      "icon": "📜",
+      "year": "2022",
+      "title": "AWS Certified Developer – Associate",
+      "desc": "Certified in cloud architecture, serverless computing, and deploying scalable applications on AWS."
+    }
+  ],
+  "skills": [
+    {
+      "icon": "⚛️",
+      "name": "React / Next.js"
+    },
+    {
+      "icon": "🎨",
+      "name": "Figma"
+    },
+    {
+      "icon": "🐍",
+      "name": "Python"
+    },
+    {
+      "icon": "☁️",
+      "name": "AWS"
+    },
+    {
+      "icon": "🗄️",
+      "name": "PostgreSQL"
+    },
+    {
+      "icon": "📱",
+      "name": "React Native"
+    },
+    {
+      "icon": "🔧",
+      "name": "Node.js"
+    },
+    {
+      "icon": "🤖",
+      "name": "Machine Learning"
+    }
+  ]
+}
