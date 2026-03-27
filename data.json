@@ -137,6 +137,14 @@
   ],
   "skills": [
     {
+      "icon": "🤖",
+      "name": "Github"
+    },
+    {
+      "icon": "🧠",
+      "name": "PyTorch / TensorFlow"
+    },
+    {
       "icon": "🧑‍",
       "name": "Web Development"
     },
