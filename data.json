@@ -17,20 +17,6 @@
   "avatar": "https://raw.githubusercontent.com/elgzermaluda/portfolio/main/assets/avatar_1774597104288_undefined_(2).png",
   "projects": [
     {
-      "img": "https://raw.githubusercontent.com/elgzermaluda/portfolio/main/assets/img_1774601413533_Screenshot_2026-03-27_165006.png",
-      "tag": "Project / Idea Competition",
-      "title": "Projek Awan (BAHnjir)",
-      "desc": "Grand Prize Winner of the Community Innovation Challenge. Engineered an autonomous IoT flood warning system designed for remote regions (Kampung Kolopis). Developed a solution that operates independently of WiFi/Mobile networks to ensure 100% uptime during environmental crises.",
-      "link": null
-    },
-    {
-      "img": "https://raw.githubusercontent.com/elgzermaluda/portfolio/main/assets/img_1774601624348_Screenshot_2026-03-27_165336.png",
-      "tag": "Project",
-      "title": "KampusGigs",
-      "desc": "Finalist (Top 3) in the Technopreneurship Innovation Challenge. Developed a gig-economy platform connecting students with local market opportunities. Engineered the product strategy and delivered a high-stakes technical pitch to industry judges.",
-      "link": null
-    },
-    {
       "img": "https://raw.githubusercontent.com/elgzermaluda/portfolio/main/assets/img_1774597136650_portfolio.png",
       "tag": "Web Development",
       "title": "Personal Portfolio Website (Easy-Update)",
@@ -66,10 +52,24 @@
       "link": "https://github.com/mayengtinloi/FinScan-Fish-Disease-Detection"
     },
     {
+      "img": "https://raw.githubusercontent.com/elgzermaluda/portfolio/main/assets/img_1774601413533_Screenshot_2026-03-27_165006.png",
+      "tag": "Project / Idea Competition",
+      "title": "Projek Awan (BAHnjir)",
+      "desc": "Grand Prize Winner of the Community Innovation Challenge. Engineered an autonomous IoT flood warning system designed for remote regions (Kampung Kolopis). Developed a solution that operates independently of WiFi/Mobile networks to ensure 100% uptime during environmental crises.",
+      "link": null
+    },
+    {
       "img": null,
       "tag": "Web Development / EdTech",
       "title": "Interactive Web-Based Scavenger Hunt",
       "desc": "A multiplayer learning platform built to increase student engagement through gamified quizzes and riddles. The system features a live leaderboard and a custom-built admin dashboard, co-developed using PHP and MySQL. This project was recognized for its innovation and functionality, earning a Top IT Project Excellence Award in UMS for its effective integration of interactive database management and user-centric design.",
+      "link": null
+    },
+    {
+      "img": "https://raw.githubusercontent.com/elgzermaluda/portfolio/main/assets/img_1774601624348_Screenshot_2026-03-27_165336.png",
+      "tag": "Project",
+      "title": "KampusGigs",
+      "desc": "Finalist (Top 3) in the Technopreneurship Innovation Challenge. Developed a gig-economy platform connecting students with local market opportunities. Engineered the product strategy and delivered a high-stakes technical pitch to industry judges.",
       "link": null
     },
     {
