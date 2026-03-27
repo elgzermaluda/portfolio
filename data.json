@@ -50,6 +50,13 @@
       "title": "Machine Learning for AgriBuddy: Pest Detection Interface",
       "desc": "A machine learning tool designed to replace manual 10-minute farm data entry with a 5-second photo-based diagnostic. This AI system identifies paddy pests instantly and provides tailored agricultural advice. Currently in the validation phase with Jabatan Pertanian, the project bridges the gap between complex research and practical, on-the-ground tools for local farming communities.",
       "link": null
+    },
+    {
+      "img": null,
+      "tag": "Mobile Development / Social Impact",
+      "title": "Food Bridge: Zero Hunger Solution",
+      "desc": "A Flutter-based mobile application developed to combat food waste and malnutrition by connecting restaurants and individuals with NGOs and food banks. The platform features a real-time inventory management system and a map-based interface, aligning with UN Sustainable Development Goal 2 to streamline the distribution of surplus food to communities in need.",
+      "link": "https://github.com/elgzermaluda/Food-Bridge"
     }
   ],
   "experience": [],
