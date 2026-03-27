@@ -59,7 +59,7 @@
       "link": "https://github.com/elgzermaluda/Food-Bridge"
     },
     {
-      "img": null,
+      "img": "https://raw.githubusercontent.com/elgzermaluda/portfolio/main/assets/img_1774592754090_fish.png",
       "tag": "AI & Computer Vision / Aquaculture",
       "title": "FinScan: AI-Based Fish Disease Detection",
       "desc": "A lightweight deep learning system designed for early disease identification in aquaculture. The project benchmarks 4 distinct CNN architectures, ultimately utilizing MobileNetV2 to provide real-time classification for 5 common fish diseases. This tool reduces reliance on manual inspection, enabling farmers to cut economic losses through instant, data-driven diagnostic feedback.",
