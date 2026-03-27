@@ -35,6 +35,18 @@
   "achievements": [
     {
       "icon": "🏆",
+      "year": "2026",
+      "title": "Grand Prize Winner for Idea Competition (IT For Community)",
+      "desc": "Developed a specialized IoT device for the Kampung Kolopis community that functions without WiFi or mobile networks. The project outperformed international teams from UNDIP, Indonesia to become the #1 Grand Prize Winner after advancing through a competitive pool to the Top 5 Finalists, which is out of over 30 teams."
+    },
+    {
+      "icon": "🏆",
+      "year": "2025",
+      "title": "Gold Award at Selangor Techsphere Innovation Competition",
+      "desc": "Agribuddy earned a Gold Award for developing a high-potential technical solution during the Techsphere competition. The project stood out for its unique execution and ability to solve real-world problems, beating out a wide field of innovators to take home a top-tier win."
+    },
+    {
+      "icon": "🏆",
       "year": "2025",
       "title": "Gold Award & Best Project Award at EIS",
       "desc": "A premier award-winning project recognized for innovation in Food Security and Agropreneurship at the 2025 Entrepreneurial & Innovation Student Competition. Out of a competitive field at the Sabah Festival of Ideas, this AI-driven platform earned both the Gold Award and the Best Project Award for its practical approach to empowering farmers with sustainable, data-backed insights."
