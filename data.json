@@ -17,14 +17,14 @@
   "avatar": "https://raw.githubusercontent.com/elgzermaluda/portfolio/main/assets/avatar_1774579188894_Screenshot_2026-03-24_165752.png",
   "projects": [
     {
-      "img": "https://raw.githubusercontent.com/elgzermaluda/portfolio/main/assets/img_1774579433944_Screenshot_2026-03-24_165752.png",
+      "img": null,
       "tag": "Web App",
       "title": "Design System Builder",
       "desc": "A drag-and-drop tool for creating and exporting consistent UI design systems. Used by 200+ teams worldwide.",
       "link": "#"
     },
     {
-      "img": null,
+      "img": "https://raw.githubusercontent.com/elgzermaluda/portfolio/main/assets/img_1774579545246_Screenshot_2026-03-24_165752.png",
       "tag": "AI / ML",
       "title": "Smart Receipt Scanner",
       "desc": "Mobile app using computer vision to automatically parse and categorise receipts for personal finance tracking.",
