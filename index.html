@@ -84,10 +84,15 @@ section+section{border-top:1px solid var(--border)}
 .section-title{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,42px);font-weight:700;line-height:1.15;color:var(--ink)}
 .add-btn{display:none;align-items:center;gap:8px;background:var(--accent-soft);color:var(--accent);border:2px dashed var(--accent-border);padding:10px 20px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
 .add-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
-.card-actions{display:none;gap:6px;position:absolute;top:10px;right:10px;z-index:10}
+.card-actions{display:none;gap:6px;position:absolute;top:10px;right:10px;z-index:10;background:rgba(255,255,255,0.9);padding:4px;border-radius:100px;box-shadow:var(--shadow)}
 .card-actions button{width:28px;height:28px;border-radius:50%;border:none;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
 .btn-del{background:#fee2e2;color:#ef4444}
 .btn-del:hover{background:#ef4444;color:#fff}
+.btn-move{background:var(--sage-soft);color:var(--sage)}
+.btn-move:hover{background:var(--sage);color:#fff}
+.see-more-container { width:100%; display:flex; justify-content:center; margin-top:40px; }
+.see-more-btn { background:transparent; border:1px solid var(--border); color:var(--ink-light); padding:10px 24px; border-radius:100px; cursor:pointer; font-weight:600; font-size:13px; transition:all .2s; }
+.see-more-btn:hover { border-color:var(--accent); color:var(--accent); }
 #projects{background:var(--white)}
 .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px}
 .project-card{background:var(--cream);border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);position:relative;transition:all .25s}
@@ -172,7 +177,7 @@ footer strong{color:rgba(255,255,255,.55);font-weight:600}
 </head>
 <body>
 
-<div id="edit-banner">✏️ Edit mode — click any text to edit · use + buttons to add · saving to GitHub on exit</div>
+<div id="edit-banner">✏️ Edit mode — use ↑↓ to rearrange · use + buttons to add · saving to GitHub on exit</div>
 
 <div id="pw-overlay">
   <div id="pw-box">
@@ -233,6 +238,7 @@ footer strong{color:rgba(255,255,255,.55);font-weight:600}
     <button class="add-btn" onclick="openModal('project')"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Add Project</button>
   </div>
   <div class="projects-grid" id="projects-grid"></div>
+  <div class="see-more-container" id="projects-sm-box" style="display:none"><button class="see-more-btn" onclick="toggleSeeMore('projects')">See More Projects</button></div>
 </section>
 
 <section id="experience">
@@ -241,6 +247,7 @@ footer strong{color:rgba(255,255,255,.55);font-weight:600}
     <button class="add-btn" onclick="openModal('exp')"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Add Experience</button>
   </div>
   <div class="exp-list" id="exp-list"></div>
+  <div class="see-more-container" id="experience-sm-box" style="display:none"><button class="see-more-btn" onclick="toggleSeeMore('experience')">See More Experience</button></div>
 </section>
 
 <section id="achievements">
@@ -249,6 +256,7 @@ footer strong{color:rgba(255,255,255,.55);font-weight:600}
     <button class="add-btn" onclick="openModal('ach')"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Add Achievement</button>
   </div>
   <div class="ach-list" id="ach-list"></div>
+  <div class="see-more-container" id="achievements-sm-box" style="display:none"><button class="see-more-btn" onclick="toggleSeeMore('achievements')">See More Achievements</button></div>
 </section>
 
 <section id="skills">
@@ -257,6 +265,7 @@ footer strong{color:rgba(255,255,255,.55);font-weight:600}
     <button class="add-btn" onclick="openModal('skill')"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Add Skill</button>
   </div>
   <div class="skills-grid" id="skills-grid"></div>
+  <div class="see-more-container" id="skills-sm-box" style="display:none"><button class="see-more-btn" onclick="toggleSeeMore('skills')">See More Skills</button></div>
 </section>
 
 <section id="contact">
@@ -281,7 +290,6 @@ footer strong{color:rgba(255,255,255,.55);font-weight:600}
   <span>Made with care ✦</span>
 </footer>
 
-<!-- MODALS -->
 <div class="modal-overlay" id="project-modal">
   <div class="modal"><h3>Add New Project</h3><div class="mf">
     <label>Project Image</label>
@@ -357,6 +365,7 @@ const DEF = {
 };
 
 let isEdit=false, curProjImg=null, currentData={}, ghFileSha=null;
+let showAll = { projects: false, experience: false, achievements: false, skills: false };
 
 window.onload = async () => {
   currentData = await loadFromGitHub();
@@ -419,8 +428,25 @@ function handleEditToggle() {
 function checkPw(){ if(document.getElementById('pw-input').value===PW){closePw();enterEdit();}else{document.getElementById('pw-error').textContent='Incorrect password, try again.';document.getElementById('pw-input').value='';} }
 function closePw(){ document.getElementById('pw-overlay').classList.remove('open');document.getElementById('pw-input').value='';document.getElementById('pw-error').textContent=''; }
 
-function enterEdit(){ isEdit=true;document.body.classList.add('edit-mode');document.getElementById('edit-toggle').classList.add('editing');document.getElementById('edit-label').textContent='Done Editing';enableCE(); }
-async function exitEdit(){ saveTextEdits();saveBackup();isEdit=false;document.body.classList.remove('edit-mode');document.getElementById('edit-toggle').classList.remove('editing');document.getElementById('edit-label').textContent='Edit Portfolio';disableCE();await saveToGitHub();renderAll(); }
+function enterEdit(){ 
+  isEdit=true; 
+  document.body.classList.add('edit-mode'); 
+  document.getElementById('edit-toggle').classList.add('editing'); 
+  document.getElementById('edit-label').textContent='Done Editing'; 
+  enableCE(); 
+  renderAll(); // Re-render to show move buttons
+}
+async function exitEdit(){ 
+  saveTextEdits(); 
+  saveBackup(); 
+  isEdit=false; 
+  document.body.classList.remove('edit-mode'); 
+  document.getElementById('edit-toggle').classList.remove('editing'); 
+  document.getElementById('edit-label').textContent='Edit Portfolio'; 
+  disableCE(); 
+  await saveToGitHub(); 
+  renderAll(); 
+}
 
 const CE_IDS=['nav-name','hero-badge','hero-h1','hero-sub','contact-h','contact-text','c-availability','c-email','c-linkedin','c-github','contact-quote','footer-year','footer-name'];
 function enableCE(){ CE_IDS.forEach(id=>{const e=document.getElementById(id);if(e)e.contentEditable='true';}); }
@@ -457,13 +483,112 @@ function renderAll(){
   const d=currentData;
   CE_IDS.forEach(id=>{if(d.text&&d.text[id]){const e=document.getElementById(id);if(e)e.innerHTML=d.text[id];}});
   if(d.avatar){document.getElementById('avatar-img').src=d.avatar;document.getElementById('avatar-img').style.display='block';document.getElementById('avatar-placeholder').style.display='none';}
-  renderProjects(d.projects||[]);renderExp(d.experience||[]);renderAch(d.achievements||[]);renderSkills(d.skills||[]);
+  
+  renderProjects(d.projects||[]);
+  renderExp(d.experience||[]);
+  renderAch(d.achievements||[]);
+  renderSkills(d.skills||[]);
+  
   if(isEdit)enableCE();
 }
-function renderProjects(list){document.getElementById('projects-grid').innerHTML=list.map((p,i)=>`<div class="project-card"><div class="card-actions"><button class="btn-del" onclick="delItem('projects',${i})">✕</button></div><div class="project-img">${p.img?`<img src="${p.img}" alt="">`:`<div class="project-img-ph">📁</div>`}<div class="img-overlay" onclick="replaceImg(${i})">📷 Replace image</div></div><div class="project-body"><div class="project-tag">${p.tag||''}</div><div class="project-title">${p.title}</div><div class="project-desc">${p.desc}</div>${p.link?`<a href="${p.link}" class="project-link" target="_blank">View project →</a>`:''}</div></div>`).join('');}
-function renderExp(list){document.getElementById('exp-list').innerHTML=list.map((e,i)=>`<div class="exp-item"><div class="exp-left"><div class="exp-year">${e.year}</div><div class="exp-duration">${e.dur}</div></div><div class="exp-right"><div class="exp-dot"></div><div class="exp-card"><div class="card-actions"><button class="btn-del" onclick="delItem('experience',${i})">✕</button></div><div class="exp-org">${e.org}</div><div class="exp-role">${e.role}</div><span class="exp-type-badge">${e.type}</span>${e.desc?`<div class="exp-desc">${e.desc}</div>`:''}</div></div></div>`).join('');}
-function renderAch(list){document.getElementById('ach-list').innerHTML=list.map((a,i)=>`<div class="ach-card"><div class="card-actions"><button class="btn-del" onclick="delItem('achievements',${i})">✕</button></div><div class="ach-icon">${a.icon}</div><div><div class="ach-year">${a.year}</div><div class="ach-title">${a.title}</div><div class="ach-desc">${a.desc}</div></div></div>`).join('');}
-function renderSkills(list){document.getElementById('skills-grid').innerHTML=list.map((s,i)=>`<div class="skill-chip" style="position:relative;"><div class="card-actions"><button class="btn-del" onclick="delItem('skills',${i})">✕</button></div><span class="skill-icon">${s.icon}</span><span>${s.name}</span></div>`).join('');}
+
+function toggleSeeMore(sec) {
+  showAll[sec] = true;
+  renderAll();
+}
+
+function moveItem(sec, i, dir) {
+  const list = currentData[sec];
+  const newIdx = i + dir;
+  if(newIdx < 0 || newIdx >= list.length) return;
+  const temp = list[i];
+  list[i] = list[newIdx];
+  list[newIdx] = temp;
+  renderAll();
+}
+
+function renderProjects(list){
+  const limit = 4;
+  const showList = showAll.projects ? list : list.slice(0, limit);
+  document.getElementById('projects-grid').innerHTML=showList.map((p,i)=>`
+    <div class="project-card">
+      <div class="card-actions">
+        <button class="btn-move" onclick="moveItem('projects',${i},-1)">↑</button>
+        <button class="btn-move" onclick="moveItem('projects',${i},1)">↓</button>
+        <button class="btn-del" onclick="delItem('projects',${i})">✕</button>
+      </div>
+      <div class="project-img">
+        ${p.img?`<img src="${p.img}?t=${Date.now()}" alt="">`:`<div class="project-img-ph">📁</div>`}
+        <div class="img-overlay" onclick="replaceImg(${i})">📷 Replace image</div>
+      </div>
+      <div class="project-body">
+        <div class="project-tag">${p.tag||''}</div>
+        <div class="project-title">${p.title}</div>
+        <div class="project-desc">${p.desc}</div>
+        ${p.link?`<a href="${p.link}" class="project-link" target="_blank">View project →</a>`:''}
+      </div>
+    </div>`).join('');
+  document.getElementById('projects-sm-box').style.display = (!showAll.projects && list.length > limit) ? 'flex' : 'none';
+}
+
+function renderExp(list){
+  const limit = 4;
+  const showList = showAll.experience ? list : list.slice(0, limit);
+  document.getElementById('exp-list').innerHTML=showList.map((e,i)=>`
+    <div class="exp-item">
+      <div class="exp-left"><div class="exp-year">${e.year}</div><div class="exp-duration">${e.dur}</div></div>
+      <div class="exp-right">
+        <div class="exp-dot"></div>
+        <div class="exp-card">
+          <div class="card-actions">
+            <button class="btn-move" onclick="moveItem('experience',${i},-1)">↑</button>
+            <button class="btn-move" onclick="moveItem('experience',${i},1)">↓</button>
+            <button class="btn-del" onclick="delItem('experience',${i})">✕</button>
+          </div>
+          <div class="exp-org">${e.org}</div>
+          <div class="exp-role">${e.role}</div>
+          <span class="exp-type-badge">${e.type}</span>
+          ${e.desc?`<div class="exp-desc">${e.desc}</div>`:''}
+        </div>
+      </div>
+    </div>`).join('');
+  document.getElementById('experience-sm-box').style.display = (!showAll.experience && list.length > limit) ? 'flex' : 'none';
+}
+
+function renderAch(list){
+  const limit = 4;
+  const showList = showAll.achievements ? list : list.slice(0, limit);
+  document.getElementById('ach-list').innerHTML=showList.map((a,i)=>`
+    <div class="ach-card">
+      <div class="card-actions">
+        <button class="btn-move" onclick="moveItem('achievements',${i},-1)">↑</button>
+        <button class="btn-move" onclick="moveItem('achievements',${i},1)">↓</button>
+        <button class="btn-del" onclick="delItem('achievements',${i})">✕</button>
+      </div>
+      <div class="ach-icon">${a.icon}</div>
+      <div>
+        <div class="ach-year">${a.year}</div>
+        <div class="ach-title">${a.title}</div>
+        <div class="ach-desc">${a.desc}</div>
+      </div>
+    </div>`).join('');
+  document.getElementById('achievements-sm-box').style.display = (!showAll.achievements && list.length > limit) ? 'flex' : 'none';
+}
+
+function renderSkills(list){
+  const limit = 8;
+  const showList = showAll.skills ? list : list.slice(0, limit);
+  document.getElementById('skills-grid').innerHTML=showList.map((s,i)=>`
+    <div class="skill-chip" style="position:relative;">
+      <div class="card-actions">
+        <button class="btn-move" onclick="moveItem('skills',${i},-1)">↑</button>
+        <button class="btn-move" onclick="moveItem('skills',${i},1)">↓</button>
+        <button class="btn-del" onclick="delItem('skills',${i})">✕</button>
+      </div>
+      <span class="skill-icon">${s.icon}</span><span>${s.name}</span>
+    </div>`).join('');
+  document.getElementById('skills-sm-box').style.display = (!showAll.skills && list.length > limit) ? 'flex' : 'none';
+}
 
 function delItem(sec,i){if(!confirm('Remove this item?'))return;currentData[sec].splice(i,1);renderAll();}
 function handleAvatarClick(){if(isEdit)document.getElementById('avatar-file').click();}
