@@ -22,6 +22,13 @@
       "title": "Easy-Update Personal Portfolio Website",
       "desc": "A streamlined personal website hosted on GitHub designed for quick content updates. It uses an automated setup that pushes changes live instantly whenever a file is edited, removing the need for manual deployment or complex coding.",
       "link": "https://elgzermaluda.github.io/portfolio"
+    },
+    {
+      "img": null,
+      "tag": "AI Mobile Application Development",
+      "title": "Agribuddy (YSEALI Seeds for the Future 2025)",
+      "desc": "An AI-powered crop management platform designed to help Malaysian farmers optimize yields and adopt sustainable practices. The project combines a mobile application with data-driven tools and hands-on training to simplify digital transformation in local farming communities.",
+      "link": "https://theagribuddy.com/"
     }
   ],
   "experience": [
@@ -118,14 +125,14 @@
     {
       "icon": "🏅",
       "year": "2024",
-      "title": "Achievement",
-      "desc": ""
+      "title": "The Most Innovative Idea",
+      "desc": "A high-impact project that me and my team created that is recognized for its creative approach to regional challenges during the YSEALI Bootcamp. It focuses on practical, scalable solutions and earned the \"Most Innovative Idea\" title for its unique integration of technology and community-driven impact."
     },
     {
-      "icon": "🏅",
-      "year": "2024",
-      "title": "Achievement",
-      "desc": ""
+      "icon": "🏆",
+      "year": "2025",
+      "title": "YSEALI Seeds for the Future 2025 Grant Recipient",
+      "desc": "A grant-funded project focused on regional development and social impact. Our project (Agribuddy) involved coordinating with multiple partners and volunteers to hit key milestones, ultimately delivering measurable outcomes for youth leaders and local beneficiaries within the community."
     }
   ],
   "skills": [
