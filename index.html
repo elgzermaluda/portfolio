@@ -325,11 +325,13 @@ footer strong{color:rgba(255,255,255,.55);font-weight:600}
 // ════════════════════════════════════════════════════
 // ⚙️  STEP 1 — Fill these 3 values in (see guide below)
 // ════════════════════════════════════════════════════
-const GH_TOKEN  = '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';       // your GitHub personal access token
-const GH_USER   = 'elgzermaluda';    // your GitHub username  e.g. 'johndoe'
-const GH_REPO   = 'portfolio'; // your repo name e.g. 'johndoe.github.io'
-const GH_FILE   = 'data.json';             // leave this as is
-const PW        = 'portfolio123';          // ← change to your own password
+
+// 1. Updated variables (Token is now loaded from your browser, not the code)
+let GH_TOKEN = localStorage.getItem('gh_key') || ''; 
+const GH_USER = 'elgzermaluda'; 
+const GH_REPO = 'portfolio'; 
+const GH_FILE = 'data.json'; 
+const PW      = 'portfolio123';
 // ════════════════════════════════════════════════════
 
 const DEF = {
@@ -402,7 +404,25 @@ function showStatus(msg) {
 }
 
 // ── PASSWORD ──────────────────────────────────────────
-function handleEditToggle(){ if(isEdit){exitEdit();}else{document.getElementById('pw-overlay').classList.add('open');setTimeout(()=>document.getElementById('pw-input').focus(),100);renderBackupList();} }
+// 2. Updated toggle function (Asks for the token if it's missing)
+function handleEditToggle() {
+    if (isEdit) {
+        exitEdit();
+    } else {
+        if (!GH_TOKEN) {
+            const input = prompt("GitHub security revoked your old key. Please paste a NEW Personal Access Token (ghp_...):");
+            if (input) {
+                GH_TOKEN = input;
+                localStorage.setItem('gh_key', input); 
+            } else {
+                return; 
+            }
+        }
+        document.getElementById('pw-overlay').classList.add('open');
+        setTimeout(() => document.getElementById('pw-input').focus(), 100);
+        renderBackupList();
+    }
+}
 function checkPw(){ if(document.getElementById('pw-input').value===PW){closePw();enterEdit();}else{document.getElementById('pw-error').textContent='Incorrect password, try again.';document.getElementById('pw-input').value='';} }
 function closePw(){ document.getElementById('pw-overlay').classList.remove('open');document.getElementById('pw-input').value='';document.getElementById('pw-error').textContent=''; }
 
