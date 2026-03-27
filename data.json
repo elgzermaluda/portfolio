@@ -57,6 +57,13 @@
       "title": "Food Bridge: Zero Hunger Solution",
       "desc": "A Flutter-based mobile application developed to combat food waste and malnutrition by connecting restaurants and individuals with NGOs and food banks. The platform features a real-time inventory management system and a map-based interface, aligning with UN Sustainable Development Goal 2 to streamline the distribution of surplus food to communities in need.",
       "link": "https://github.com/elgzermaluda/Food-Bridge"
+    },
+    {
+      "img": null,
+      "tag": "AI & Computer Vision / Aquaculture",
+      "title": "FinScan: AI-Based Fish Disease Detection",
+      "desc": "A lightweight deep learning system designed for early disease identification in aquaculture. The project benchmarks 4 distinct CNN architectures, ultimately utilizing MobileNetV2 to provide real-time classification for 5 common fish diseases. This tool reduces reliance on manual inspection, enabling farmers to cut economic losses through instant, data-driven diagnostic feedback.",
+      "link": "https://github.com/mayengtinloi/FinScan-Fish-Disease-Detection"
     }
   ],
   "experience": [],
