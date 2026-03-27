@@ -36,6 +36,13 @@
       "title": "Machine Learning for Sustainable Marine Resources",
       "desc": "A research project developing a Sequential Hybrid regression framework to forecast fisheries stock trends. The model outperformed existing industry benchmarks in predictive accuracy, contributing to SDG 14 (Life Below Water) by providing a data-driven tool for marine risk assessment and sustainable resource management.",
       "link": null
+    },
+    {
+      "img": null,
+      "tag": "Web Development / EdTech",
+      "title": "Interactive Web-Based Scavenger Hunt",
+      "desc": "A multiplayer learning platform built to increase student engagement through gamified quizzes and riddles. The system features a live leaderboard and a custom-built admin dashboard, co-developed using PHP and MySQL. This project was recognized for its innovation and functionality, earning a Top IT Project Excellence Award in UMS for its effective integration of interactive database management and user-centric design.",
+      "link": null
     }
   ],
   "experience": [],
