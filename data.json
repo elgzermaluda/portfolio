@@ -43,6 +43,13 @@
       "title": "Interactive Web-Based Scavenger Hunt",
       "desc": "A multiplayer learning platform built to increase student engagement through gamified quizzes and riddles. The system features a live leaderboard and a custom-built admin dashboard, co-developed using PHP and MySQL. This project was recognized for its innovation and functionality, earning a Top IT Project Excellence Award in UMS for its effective integration of interactive database management and user-centric design.",
       "link": null
+    },
+    {
+      "img": null,
+      "tag": "AI & Agriculture",
+      "title": "Machine Learning for AgriBuddy: Pest Detection Interface",
+      "desc": "A machine learning tool designed to replace manual 10-minute farm data entry with a 5-second photo-based diagnostic. This AI system identifies paddy pests instantly and provides tailored agricultural advice. Currently in the validation phase with Jabatan Pertanian, the project bridges the gap between complex research and practical, on-the-ground tools for local farming communities.",
+      "link": null
     }
   ],
   "experience": [],
