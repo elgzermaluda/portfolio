@@ -18,9 +18,9 @@
   "projects": [
     {
       "img": null,
-      "tag": "Web App",
-      "title": "Design System Builder",
-      "desc": "A drag-and-drop tool for creating and exporting consistent UI design systems. Used by 200+ teams worldwide.",
+      "tag": "Dashboard",
+      "title": "Analytics Platform",
+      "desc": "Real-time analytics dashboard for e-commerce brands with beautiful data visualisations and export tools.",
       "link": "#"
     },
     {
@@ -32,9 +32,9 @@
     },
     {
       "img": null,
-      "tag": "Dashboard",
-      "title": "Analytics Platform",
-      "desc": "Real-time analytics dashboard for e-commerce brands with beautiful data visualisations and export tools.",
+      "tag": "Web App",
+      "title": "Design System Builder",
+      "desc": "A drag-and-drop tool for creating and exporting consistent UI design systems. Used by 200+ teams worldwide.",
       "link": "#"
     }
   ],
@@ -74,16 +74,16 @@
   ],
   "achievements": [
     {
-      "icon": "🏆",
-      "year": "2024",
-      "title": "Best Final Year Project — NUS School of Computing",
-      "desc": "Awarded top honours for an AI-powered accessibility tool that assists visually impaired users."
-    },
-    {
       "icon": "🎖️",
       "year": "2023",
       "title": "Hackathon Winner — HackSG 2023",
       "desc": "First place in a 48-hour national hackathon with 150+ competing teams."
+    },
+    {
+      "icon": "🏆",
+      "year": "2024",
+      "title": "Best Final Year Project — NUS School of Computing",
+      "desc": "Awarded top honours for an AI-powered accessibility tool that assists visually impaired users."
     },
     {
       "icon": "📜",
