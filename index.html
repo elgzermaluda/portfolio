@@ -55,7 +55,6 @@ body.edit-mode .img-overlay{display:flex !important}
 .backup-restore-btn{background:none;border:1.5px solid var(--accent-border);color:var(--accent);border-radius:100px;padding:5px 14px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap}
 .backup-restore-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
 #no-backups{font-size:13px;color:var(--ink-light);text-align:center;padding:8px 0}
-#save-status{font-size:12px;margin-top:10px;min-height:18px;font-weight:500}
 .hero{min-height:90vh;display:flex;align-items:center;padding:0 5%;position:relative;overflow:hidden}
 .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 65% 65% at 80% 50%,#fde8d8 0%,transparent 65%),radial-gradient(ellipse 40% 40% at 8% 80%,#eef5ef 0%,transparent 60%);z-index:0}
 .hero-content{position:relative;z-index:1;max-width:640px}
@@ -84,15 +83,17 @@ section+section{border-top:1px solid var(--border)}
 .section-title{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,42px);font-weight:700;line-height:1.15;color:var(--ink)}
 .add-btn{display:none;align-items:center;gap:8px;background:var(--accent-soft);color:var(--accent);border:2px dashed var(--accent-border);padding:10px 20px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
 .add-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
-.card-actions{display:none;gap:6px;position:absolute;top:10px;right:10px;z-index:10;background:rgba(255,255,255,0.9);padding:4px;border-radius:100px;box-shadow:var(--shadow)}
-.card-actions button{width:28px;height:28px;border-radius:50%;border:none;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.card-actions{display:none;gap:5px;position:absolute;top:10px;right:10px;z-index:10;background:rgba(255,255,255,.95);padding:4px;border-radius:100px;box-shadow:var(--shadow)}
+.card-actions button{width:28px;height:28px;border-radius:50%;border:none;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
 .btn-del{background:#fee2e2;color:#ef4444}
 .btn-del:hover{background:#ef4444;color:#fff}
+.btn-edit{background:#e0f0ff;color:#2563eb}
+.btn-edit:hover{background:#2563eb;color:#fff}
 .btn-move{background:var(--sage-soft);color:var(--sage)}
 .btn-move:hover{background:var(--sage);color:#fff}
-.see-more-container { width:100%; display:flex; justify-content:center; margin-top:40px; }
-.see-more-btn { background:transparent; border:1px solid var(--border); color:var(--ink-light); padding:10px 24px; border-radius:100px; cursor:pointer; font-weight:600; font-size:13px; transition:all .2s; }
-.see-more-btn:hover { border-color:var(--accent); color:var(--accent); }
+.see-more-container{width:100%;display:flex;justify-content:center;margin-top:40px}
+.see-more-btn{background:transparent;border:1px solid var(--border);color:var(--ink-light);padding:10px 24px;border-radius:100px;cursor:pointer;font-weight:600;font-size:13px;transition:all .2s}
+.see-more-btn:hover{border-color:var(--accent);color:var(--accent)}
 #projects{background:var(--white)}
 .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px}
 .project-card{background:var(--cream);border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);position:relative;transition:all .25s}
@@ -168,6 +169,7 @@ footer strong{color:rgba(255,255,255,.55);font-weight:600}
 .modal-btns{display:flex;gap:10px;justify-content:flex-end;margin-top:6px}
 .m-cancel{background:none;border:1.5px solid var(--border);color:var(--ink-light);padding:10px 20px;border-radius:100px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px}
 .m-save{background:var(--accent);color:#fff;border:none;padding:10px 24px;border-radius:100px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600}
+.modal-mode-tag{display:inline-block;background:var(--accent-soft);color:var(--accent);border-radius:100px;padding:3px 12px;font-size:11px;font-weight:700;letter-spacing:.5px;margin-bottom:16px}
 @media(max-width:768px){
   .hero-avatar{display:none}.nav-links{display:none}
   .projects-grid{grid-template-columns:1fr}
@@ -177,7 +179,7 @@ footer strong{color:rgba(255,255,255,.55);font-weight:600}
 </head>
 <body>
 
-<div id="edit-banner">✏️ Edit mode — use ↑↓ to rearrange · use + buttons to add · saving to GitHub on exit</div>
+<div id="edit-banner">✏️ Edit mode — ✏️ to edit · ↑↓ to reorder · + to add · saves to GitHub on exit</div>
 
 <div id="pw-overlay">
   <div id="pw-box">
@@ -290,55 +292,78 @@ footer strong{color:rgba(255,255,255,.55);font-weight:600}
   <span>Made with care ✦</span>
 </footer>
 
+<!-- PROJECT MODAL -->
 <div class="modal-overlay" id="project-modal">
-  <div class="modal"><h3>Add New Project</h3><div class="mf">
-    <label>Project Image</label>
-    <div class="file-drop" id="proj-drop" onclick="document.getElementById('proj-img-file').click()" ondragover="dOver(event,'proj-drop')" ondragleave="dLeave('proj-drop')" ondrop="dDrop(event,'proj-img-file','proj-drop')">📁 Drag &amp; drop or click to browse<input type="file" id="proj-img-file" accept="image/*" style="display:none" onchange="prevFile(this,'proj-drop')"></div>
-    <label>Tag / Category</label><input type="text" id="p-tag" placeholder="e.g. Web App, AI, Design...">
-    <label>Project Title</label><input type="text" id="p-title" placeholder="My Awesome Project">
-    <label>Description</label><textarea id="p-desc" placeholder="What did you build?"></textarea>
-    <label>Link (optional)</label><input type="url" id="p-link" placeholder="https://...">
-    <div class="modal-btns"><button class="m-cancel" onclick="closeModal('project')">Cancel</button><button class="m-save" onclick="saveProject()">Add Project</button></div>
-  </div></div>
+  <div class="modal">
+    <div class="modal-mode-tag" id="project-modal-tag">Adding new project</div>
+    <h3 id="project-modal-title">Add New Project</h3>
+    <div class="mf">
+      <label>Project Image</label>
+      <div class="file-drop" id="proj-drop" onclick="document.getElementById('proj-img-file').click()" ondragover="dOver(event,'proj-drop')" ondragleave="dLeave('proj-drop')" ondrop="dDrop(event,'proj-img-file','proj-drop')">📁 Drag &amp; drop or click to browse<input type="file" id="proj-img-file" accept="image/*" style="display:none" onchange="prevFile(this,'proj-drop')"></div>
+      <label>Tag / Category</label><input type="text" id="p-tag" placeholder="e.g. Web App, AI, Design...">
+      <label>Project Title</label><input type="text" id="p-title" placeholder="My Awesome Project">
+      <label>Description</label><textarea id="p-desc" placeholder="What did you build?"></textarea>
+      <label>Link (optional)</label><input type="url" id="p-link" placeholder="https://...">
+      <div class="modal-btns"><button class="m-cancel" onclick="closeModal('project')">Cancel</button><button class="m-save" id="project-save-btn" onclick="saveProject()">Add Project</button></div>
+    </div>
+  </div>
 </div>
+
+<!-- EXPERIENCE MODAL -->
 <div class="modal-overlay" id="exp-modal">
-  <div class="modal"><h3>Add Experience</h3><div class="mf">
-    <label>Type</label><select id="e-type"><option>Internship</option><option>Full-time</option><option>Part-time</option><option>Volunteer</option><option>Freelance</option><option>Research</option><option>Education</option></select>
-    <label>Organisation / Company</label><input type="text" id="e-org" placeholder="e.g. Google, NUS, Red Cross...">
-    <label>Role / Position</label><input type="text" id="e-role" placeholder="e.g. Software Engineer Intern">
-    <label>Duration</label><input type="text" id="e-dur" placeholder="e.g. May – Aug 2024">
-    <label>Year</label><input type="text" id="e-year" placeholder="2024">
-    <label>Description (optional)</label><textarea id="e-desc" placeholder="What did you do?"></textarea>
-    <div class="modal-btns"><button class="m-cancel" onclick="closeModal('exp')">Cancel</button><button class="m-save" onclick="saveExp()">Add Experience</button></div>
-  </div></div>
+  <div class="modal">
+    <div class="modal-mode-tag" id="exp-modal-tag">Adding new experience</div>
+    <h3 id="exp-modal-title">Add Experience</h3>
+    <div class="mf">
+      <label>Type</label><select id="e-type"><option>Internship</option><option>Full-time</option><option>Part-time</option><option>Volunteer</option><option>Freelance</option><option>Research</option><option>Education</option></select>
+      <label>Organisation / Company</label><input type="text" id="e-org" placeholder="e.g. Google, NUS, Red Cross...">
+      <label>Role / Position</label><input type="text" id="e-role" placeholder="e.g. Software Engineer Intern">
+      <label>Duration</label><input type="text" id="e-dur" placeholder="e.g. May – Aug 2024">
+      <label>Year</label><input type="text" id="e-year" placeholder="2024">
+      <label>Description (optional)</label><textarea id="e-desc" placeholder="What did you do?"></textarea>
+      <div class="modal-btns"><button class="m-cancel" onclick="closeModal('exp')">Cancel</button><button class="m-save" id="exp-save-btn" onclick="saveExp()">Add Experience</button></div>
+    </div>
+  </div>
 </div>
+
+<!-- ACHIEVEMENT MODAL -->
 <div class="modal-overlay" id="ach-modal">
-  <div class="modal"><h3>Add Achievement</h3><div class="mf">
-    <label>Emoji Icon</label><input type="text" id="a-icon" maxlength="4" placeholder="🏆" style="width:80px;font-size:22px;text-align:center">
-    <label>Year</label><input type="text" id="a-year" placeholder="2024">
-    <label>Title</label><input type="text" id="a-title" placeholder="Won Best Design Award">
-    <label>Description</label><textarea id="a-desc" placeholder="A bit more context..."></textarea>
-    <div class="modal-btns"><button class="m-cancel" onclick="closeModal('ach')">Cancel</button><button class="m-save" onclick="saveAch()">Add Achievement</button></div>
-  </div></div>
+  <div class="modal">
+    <div class="modal-mode-tag" id="ach-modal-tag">Adding new achievement</div>
+    <h3 id="ach-modal-title">Add Achievement</h3>
+    <div class="mf">
+      <label>Emoji Icon</label><input type="text" id="a-icon" maxlength="4" placeholder="🏆" style="width:80px;font-size:22px;text-align:center">
+      <label>Year</label><input type="text" id="a-year" placeholder="2024">
+      <label>Title</label><input type="text" id="a-title" placeholder="Won Best Design Award">
+      <label>Description</label><textarea id="a-desc" placeholder="A bit more context..."></textarea>
+      <div class="modal-btns"><button class="m-cancel" onclick="closeModal('ach')">Cancel</button><button class="m-save" id="ach-save-btn" onclick="saveAch()">Add Achievement</button></div>
+    </div>
+  </div>
 </div>
+
+<!-- SKILL MODAL -->
 <div class="modal-overlay" id="skill-modal">
-  <div class="modal"><h3>Add Skill</h3><div class="mf">
-    <label>Emoji Icon</label><input type="text" id="s-icon" maxlength="4" placeholder="⚡" style="width:80px;font-size:22px;text-align:center">
-    <label>Skill Name</label><input type="text" id="s-name" placeholder="React, Figma, Python...">
-    <div class="modal-btns"><button class="m-cancel" onclick="closeModal('skill')">Cancel</button><button class="m-save" onclick="saveSkill()">Add Skill</button></div>
-  </div></div>
+  <div class="modal">
+    <div class="modal-mode-tag" id="skill-modal-tag">Adding new skill</div>
+    <h3 id="skill-modal-title">Add Skill</h3>
+    <div class="mf">
+      <label>Emoji Icon</label><input type="text" id="s-icon" maxlength="4" placeholder="⚡" style="width:80px;font-size:22px;text-align:center">
+      <label>Skill Name</label><input type="text" id="s-name" placeholder="React, Figma, Python...">
+      <div class="modal-btns"><button class="m-cancel" onclick="closeModal('skill')">Cancel</button><button class="m-save" id="skill-save-btn" onclick="saveSkill()">Add Skill</button></div>
+    </div>
+  </div>
 </div>
 
 <script>
-// ════════════════════════════════════════════════════
-// ⚙️  STEP 1 — Fill these 3 values in (see guide below)
-// ════════════════════════════════════════════════════
-let GH_TOKEN = localStorage.getItem('gh_key') || ''; 
-const GH_USER = 'elgzermaluda'; 
-const GH_REPO = 'portfolio'; 
-const GH_FILE = 'data.json'; 
+// ══════════════════════════════════════════
+// ⚙️ CONFIG — fill these in before uploading
+// ══════════════════════════════════════════
+let GH_TOKEN = localStorage.getItem('gh_key') || '';
+const GH_USER = 'elgzermaluda';
+const GH_REPO = 'portfolio';
+const GH_FILE = 'data.json';
 const PW      = 'portfolio123';
-// ════════════════════════════════════════════════════
+// ══════════════════════════════════════════
 
 const DEF = {
   text:{}, avatar:null,
@@ -364,14 +389,14 @@ const DEF = {
   ]
 };
 
-let isEdit=false, curProjImg=null, currentData={}, ghFileSha=null;
-let showAll = { projects: false, experience: false, achievements: false, skills: false };
+let isEdit=false, curProjImg=null, currentData={};
+let editingIndex = { project:null, exp:null, ach:null, skill:null };
+let showAll = { projects:false, experience:false, achievements:false, skills:false };
 
-window.onload = async () => {
-  currentData = await loadFromGitHub();
-  renderAll();
-};
+// ── INIT ──────────────────────────────────────────────
+window.onload = async () => { currentData = await loadFromGitHub(); renderAll(); };
 
+// ── GITHUB ────────────────────────────────────────────
 async function loadFromGitHub() {
   try {
     const url = `https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/main/${GH_FILE}?t=${Date.now()}`;
@@ -385,140 +410,90 @@ async function saveToGitHub() {
   showStatus('Saving…');
   try {
     const apiUrl = `https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${GH_FILE}`;
-    const getRes = await fetch(apiUrl, {headers:{'Authorization':`token ${GH_TOKEN}`,'Accept':'application/vnd.github.v3+json'}});
-    let sha = null;
-    if(getRes.ok){ const j=await getRes.json(); sha=j.sha; }
-    const content = btoa(unescape(encodeURIComponent(JSON.stringify(currentData,null,2))));
-    const body = {message:'Update portfolio data',content,...(sha&&{sha})};
-    const putRes = await fetch(apiUrl,{method:'PUT',headers:{'Authorization':`token ${GH_TOKEN}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)});
-    if(!putRes.ok){ const e=await putRes.json(); throw new Error(e.message); }
-    showStatus('✅ Saved!');
-    setTimeout(()=>showStatus(''),2500);
-  } catch(e) {
-    showStatus('❌ Save failed: '+e.message);
-    console.error(e);
+    const getRes = await fetch(apiUrl,{headers:{'Authorization':`token ${GH_TOKEN}`,'Accept':'application/vnd.github.v3+json'}});
+    let sha=null; if(getRes.ok){const j=await getRes.json();sha=j.sha;}
+    const content=btoa(unescape(encodeURIComponent(JSON.stringify(currentData,null,2))));
+    const body={message:'Update portfolio data',content,...(sha&&{sha})};
+    const putRes=await fetch(apiUrl,{method:'PUT',headers:{'Authorization':`token ${GH_TOKEN}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(!putRes.ok){const e=await putRes.json();throw new Error(e.message);}
+    showStatus('✅ Saved!'); setTimeout(()=>showStatus(''),2500);
+  } catch(e){ showStatus('❌ Save failed: '+e.message); }
+}
+
+function showStatus(msg){
+  let el=document.getElementById('save-status');
+  if(!el){el=document.createElement('div');el.id='save-status';el.style.cssText='font-size:12px;margin-top:10px;min-height:18px;font-weight:500;text-align:center;color:var(--accent)';document.getElementById('pw-box').appendChild(el);}
+  el.textContent=msg;
+}
+
+// ── PASSWORD & EDIT ───────────────────────────────────
+function handleEditToggle(){
+  if(isEdit){exitEdit();}
+  else{
+    if(!GH_TOKEN){
+      const input=prompt('Paste your GitHub Personal Access Token (ghp_...) with repo permissions:');
+      if(input){GH_TOKEN=input;localStorage.setItem('gh_key',input);}else return;
+    }
+    document.getElementById('pw-overlay').classList.add('open');
+    setTimeout(()=>document.getElementById('pw-input').focus(),100);
+    renderBackupList();
   }
 }
+function checkPw(){if(document.getElementById('pw-input').value===PW){closePw();enterEdit();}else{document.getElementById('pw-error').textContent='Incorrect password, try again.';document.getElementById('pw-input').value='';}}
+function closePw(){document.getElementById('pw-overlay').classList.remove('open');document.getElementById('pw-input').value='';document.getElementById('pw-error').textContent='';}
+function enterEdit(){isEdit=true;document.body.classList.add('edit-mode');document.getElementById('edit-toggle').classList.add('editing');document.getElementById('edit-label').textContent='Done Editing';enableCE();renderAll();}
+async function exitEdit(){saveTextEdits();saveBackup();isEdit=false;document.body.classList.remove('edit-mode');document.getElementById('edit-toggle').classList.remove('editing');document.getElementById('edit-label').textContent='Edit Portfolio';disableCE();await saveToGitHub();renderAll();}
 
-function showStatus(msg) {
-  let el = document.getElementById('save-status');
-  if(!el){ el=document.createElement('div');el.id='save-status';el.style.cssText='font-size:12px;margin-top:10px;min-height:18px;font-weight:500;text-align:center;color:var(--accent)';document.getElementById('pw-box').appendChild(el); }
-  el.textContent = msg;
-}
-
-function handleEditToggle() {
-    if (isEdit) {
-        exitEdit();
-    } else {
-        if (!GH_TOKEN) {
-            const input = prompt("Please paste a GitHub Personal Access Token (ghp_...) with 'repo' permissions:");
-            if (input) {
-                GH_TOKEN = input;
-                localStorage.setItem('gh_key', input); 
-            } else {
-                return; 
-            }
-        }
-        document.getElementById('pw-overlay').classList.add('open');
-        setTimeout(() => document.getElementById('pw-input').focus(), 100);
-        renderBackupList();
-    }
-}
-
-function checkPw(){ if(document.getElementById('pw-input').value===PW){closePw();enterEdit();}else{document.getElementById('pw-error').textContent='Incorrect password, try again.';document.getElementById('pw-input').value='';} }
-function closePw(){ document.getElementById('pw-overlay').classList.remove('open');document.getElementById('pw-input').value='';document.getElementById('pw-error').textContent=''; }
-
-function enterEdit(){ 
-  isEdit=true; 
-  document.body.classList.add('edit-mode'); 
-  document.getElementById('edit-toggle').classList.add('editing'); 
-  document.getElementById('edit-label').textContent='Done Editing'; 
-  enableCE(); 
-  renderAll(); // Re-render to show move buttons
-}
-async function exitEdit(){ 
-  saveTextEdits(); 
-  saveBackup(); 
-  isEdit=false; 
-  document.body.classList.remove('edit-mode'); 
-  document.getElementById('edit-toggle').classList.remove('editing'); 
-  document.getElementById('edit-label').textContent='Edit Portfolio'; 
-  disableCE(); 
-  await saveToGitHub(); 
-  renderAll(); 
-}
-
+// ── CONTENTEDITABLE ───────────────────────────────────
 const CE_IDS=['nav-name','hero-badge','hero-h1','hero-sub','contact-h','contact-text','c-availability','c-email','c-linkedin','c-github','contact-quote','footer-year','footer-name'];
-function enableCE(){ CE_IDS.forEach(id=>{const e=document.getElementById(id);if(e)e.contentEditable='true';}); }
-function disableCE(){ CE_IDS.forEach(id=>{const e=document.getElementById(id);if(e)e.contentEditable='false';}); }
-function saveTextEdits(){ if(!currentData.text)currentData.text={};CE_IDS.forEach(id=>{const e=document.getElementById(id);if(e)currentData.text[id]=e.innerHTML;}); }
+function enableCE(){CE_IDS.forEach(id=>{const e=document.getElementById(id);if(e)e.contentEditable='true';});}
+function disableCE(){CE_IDS.forEach(id=>{const e=document.getElementById(id);if(e)e.contentEditable='false';});}
+function saveTextEdits(){if(!currentData.text)currentData.text={};CE_IDS.forEach(id=>{const e=document.getElementById(id);if(e)currentData.text[id]=e.innerHTML;});}
 
-const BACKUP_KEY='pf_backups', MAX_BACKUPS=3;
-function saveBackup(){
-  try{
-    const backups=getBackups();
-    backups.push({ts:Date.now(),label:new Date().toLocaleString('en-SG',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}),data:JSON.parse(JSON.stringify(currentData))});
-    if(backups.length>MAX_BACKUPS) backups.shift();
-    localStorage.setItem(BACKUP_KEY,JSON.stringify(backups));
-  }catch(e){}
-}
-function getBackups(){ try{return JSON.parse(localStorage.getItem(BACKUP_KEY))||[];}catch(e){return[];} }
+// ── BACKUPS ───────────────────────────────────────────
+const BACKUP_KEY='pf_backups',MAX_BACKUPS=3;
+function saveBackup(){try{const b=getBackups();b.push({ts:Date.now(),label:new Date().toLocaleString('en-SG',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}),data:JSON.parse(JSON.stringify(currentData))});if(b.length>MAX_BACKUPS)b.shift();localStorage.setItem(BACKUP_KEY,JSON.stringify(b));}catch(e){}}
+function getBackups(){try{return JSON.parse(localStorage.getItem(BACKUP_KEY))||[];}catch(e){return[];}}
 function renderBackupList(){
-  const backups=getBackups(), list=document.getElementById('backup-list');
-  if(!backups.length){list.innerHTML='<div id="no-backups">No backups yet — created automatically on each save.</div>';return;}
-  list.innerHTML=[...backups].reverse().map((b,i)=>`
-    <div class="backup-item">
-      <div class="backup-meta">Backup ${backups.length-i}<span>${b.label}</span></div>
-      <button class="backup-restore-btn" onclick="restoreBackup(${backups.length-1-i})">Restore</button>
-    </div>`).join('');
+  const b=getBackups(),list=document.getElementById('backup-list');
+  if(!b.length){list.innerHTML='<div id="no-backups">No backups yet — created automatically on each save.</div>';return;}
+  list.innerHTML=[...b].reverse().map((x,i)=>`<div class="backup-item"><div class="backup-meta">Backup ${b.length-i}<span>${x.label}</span></div><button class="backup-restore-btn" onclick="restoreBackup(${b.length-1-i})">Restore</button></div>`).join('');
 }
 async function restoreBackup(i){
-  const backups=getBackups();if(!backups[i])return;
-  if(!confirm(`Restore backup from ${backups[i].label}? Current live data will be overwritten.`))return;
-  currentData=JSON.parse(JSON.stringify(backups[i].data));
+  const b=getBackups();if(!b[i])return;
+  if(!confirm(`Restore backup from ${b[i].label}? Current data will be overwritten.`))return;
+  currentData=JSON.parse(JSON.stringify(b[i].data));
   await saveToGitHub();closePw();renderAll();
 }
 
+// ── RENDER ────────────────────────────────────────────
 function renderAll(){
   const d=currentData;
   CE_IDS.forEach(id=>{if(d.text&&d.text[id]){const e=document.getElementById(id);if(e)e.innerHTML=d.text[id];}});
-  if(d.avatar){document.getElementById('avatar-img').src=d.avatar;document.getElementById('avatar-img').style.display='block';document.getElementById('avatar-placeholder').style.display='none';}
-  
-  renderProjects(d.projects||[]);
-  renderExp(d.experience||[]);
-  renderAch(d.achievements||[]);
-  renderSkills(d.skills||[]);
-  
+  if(d.avatar){document.getElementById('avatar-img').src=d.avatar+'?t='+Date.now();document.getElementById('avatar-img').style.display='block';document.getElementById('avatar-placeholder').style.display='none';}
+  renderProjects(d.projects||[]);renderExp(d.experience||[]);renderAch(d.achievements||[]);renderSkills(d.skills||[]);
   if(isEdit)enableCE();
 }
 
-function toggleSeeMore(sec) {
-  showAll[sec] = true;
-  renderAll();
+function actionBtns(sec, i) {
+  return `<div class="card-actions">
+    <button class="btn-edit" onclick="openEditModal('${sec}',${i})" title="Edit">✏️</button>
+    <button class="btn-move" onclick="moveItem('${sec}',${i},-1)" title="Move up">↑</button>
+    <button class="btn-move" onclick="moveItem('${sec}',${i},1)" title="Move down">↓</button>
+    <button class="btn-del" onclick="delItem('${sec}',${i})" title="Delete">✕</button>
+  </div>`;
 }
 
-function moveItem(sec, i, dir) {
-  const list = currentData[sec];
-  const newIdx = i + dir;
-  if(newIdx < 0 || newIdx >= list.length) return;
-  const temp = list[i];
-  list[i] = list[newIdx];
-  list[newIdx] = temp;
-  renderAll();
-}
+function toggleSeeMore(sec){showAll[sec]=true;renderAll();}
+function moveItem(sec,i,dir){const list=currentData[sec];const ni=i+dir;if(ni<0||ni>=list.length)return;[list[i],list[ni]]=[list[ni],list[i]];renderAll();}
 
 function renderProjects(list){
-  const limit = 4;
-  const showList = showAll.projects ? list : list.slice(0, limit);
+  const limit=4,showList=showAll.projects?list:list.slice(0,limit);
   document.getElementById('projects-grid').innerHTML=showList.map((p,i)=>`
     <div class="project-card">
-      <div class="card-actions">
-        <button class="btn-move" onclick="moveItem('projects',${i},-1)">↑</button>
-        <button class="btn-move" onclick="moveItem('projects',${i},1)">↓</button>
-        <button class="btn-del" onclick="delItem('projects',${i})">✕</button>
-      </div>
+      ${actionBtns('projects',i)}
       <div class="project-img">
-        ${p.img?`<img src="${p.img}?t=${Date.now()}" alt="">`:`<div class="project-img-ph">📁</div>`}
+        ${p.img?`<img src="${p.img}" alt="">`:`<div class="project-img-ph">📁</div>`}
         <div class="img-overlay" onclick="replaceImg(${i})">📷 Replace image</div>
       </div>
       <div class="project-body">
@@ -528,23 +503,17 @@ function renderProjects(list){
         ${p.link?`<a href="${p.link}" class="project-link" target="_blank">View project →</a>`:''}
       </div>
     </div>`).join('');
-  document.getElementById('projects-sm-box').style.display = (!showAll.projects && list.length > limit) ? 'flex' : 'none';
+  document.getElementById('projects-sm-box').style.display=(!showAll.projects&&list.length>limit)?'flex':'none';
 }
 
 function renderExp(list){
-  const limit = 4;
-  const showList = showAll.experience ? list : list.slice(0, limit);
+  const limit=4,showList=showAll.experience?list:list.slice(0,limit);
   document.getElementById('exp-list').innerHTML=showList.map((e,i)=>`
     <div class="exp-item">
       <div class="exp-left"><div class="exp-year">${e.year}</div><div class="exp-duration">${e.dur}</div></div>
-      <div class="exp-right">
-        <div class="exp-dot"></div>
+      <div class="exp-right"><div class="exp-dot"></div>
         <div class="exp-card">
-          <div class="card-actions">
-            <button class="btn-move" onclick="moveItem('experience',${i},-1)">↑</button>
-            <button class="btn-move" onclick="moveItem('experience',${i},1)">↓</button>
-            <button class="btn-del" onclick="delItem('experience',${i})">✕</button>
-          </div>
+          ${actionBtns('experience',i)}
           <div class="exp-org">${e.org}</div>
           <div class="exp-role">${e.role}</div>
           <span class="exp-type-badge">${e.type}</span>
@@ -552,127 +521,183 @@ function renderExp(list){
         </div>
       </div>
     </div>`).join('');
-  document.getElementById('experience-sm-box').style.display = (!showAll.experience && list.length > limit) ? 'flex' : 'none';
+  document.getElementById('experience-sm-box').style.display=(!showAll.experience&&list.length>limit)?'flex':'none';
 }
 
 function renderAch(list){
-  const limit = 4;
-  const showList = showAll.achievements ? list : list.slice(0, limit);
+  const limit=4,showList=showAll.achievements?list:list.slice(0,limit);
   document.getElementById('ach-list').innerHTML=showList.map((a,i)=>`
     <div class="ach-card">
-      <div class="card-actions">
-        <button class="btn-move" onclick="moveItem('achievements',${i},-1)">↑</button>
-        <button class="btn-move" onclick="moveItem('achievements',${i},1)">↓</button>
-        <button class="btn-del" onclick="delItem('achievements',${i})">✕</button>
-      </div>
+      ${actionBtns('achievements',i)}
       <div class="ach-icon">${a.icon}</div>
-      <div>
-        <div class="ach-year">${a.year}</div>
-        <div class="ach-title">${a.title}</div>
-        <div class="ach-desc">${a.desc}</div>
-      </div>
+      <div><div class="ach-year">${a.year}</div><div class="ach-title">${a.title}</div><div class="ach-desc">${a.desc}</div></div>
     </div>`).join('');
-  document.getElementById('achievements-sm-box').style.display = (!showAll.achievements && list.length > limit) ? 'flex' : 'none';
+  document.getElementById('achievements-sm-box').style.display=(!showAll.achievements&&list.length>limit)?'flex':'none';
 }
 
 function renderSkills(list){
-  const limit = 8;
-  const showList = showAll.skills ? list : list.slice(0, limit);
+  const limit=8,showList=showAll.skills?list:list.slice(0,limit);
   document.getElementById('skills-grid').innerHTML=showList.map((s,i)=>`
     <div class="skill-chip" style="position:relative;">
-      <div class="card-actions">
-        <button class="btn-move" onclick="moveItem('skills',${i},-1)">↑</button>
-        <button class="btn-move" onclick="moveItem('skills',${i},1)">↓</button>
-        <button class="btn-del" onclick="delItem('skills',${i})">✕</button>
-      </div>
+      ${actionBtns('skills',i)}
       <span class="skill-icon">${s.icon}</span><span>${s.name}</span>
     </div>`).join('');
-  document.getElementById('skills-sm-box').style.display = (!showAll.skills && list.length > limit) ? 'flex' : 'none';
+  document.getElementById('skills-sm-box').style.display=(!showAll.skills&&list.length>limit)?'flex':'none';
 }
 
+// ── EDIT EXISTING ITEMS ───────────────────────────────
+function openEditModal(sec, i) {
+  if(sec==='projects'){
+    const p=currentData.projects[i];
+    editingIndex.project=i;
+    document.getElementById('project-modal-tag').textContent='Editing existing project';
+    document.getElementById('project-modal-title').textContent='Edit Project';
+    document.getElementById('project-save-btn').textContent='Save Changes';
+    document.getElementById('p-tag').value=p.tag||'';
+    document.getElementById('p-title').value=p.title||'';
+    document.getElementById('p-desc').value=p.desc||'';
+    document.getElementById('p-link').value=p.link||'';
+    const drop=document.getElementById('proj-drop');
+    drop.innerHTML=p.img?`<img src="${p.img}" style="max-height:80px;border-radius:8px;object-fit:cover;width:100%"><input type="file" id="proj-img-file" accept="image/*" style="display:none" onchange="prevFile(this,'proj-drop')">`:`📁 Drag & drop or click to browse<input type="file" id="proj-img-file" accept="image/*" style="display:none" onchange="prevFile(this,'proj-drop')">`;
+    drop.style.padding=p.img?'8px':'18px';
+    curProjImg=null;
+    document.getElementById('project-modal').classList.add('open');
+  } else if(sec==='experience'){
+    const e=currentData.experience[i];
+    editingIndex.exp=i;
+    document.getElementById('exp-modal-tag').textContent='Editing existing experience';
+    document.getElementById('exp-modal-title').textContent='Edit Experience';
+    document.getElementById('exp-save-btn').textContent='Save Changes';
+    document.getElementById('e-type').value=e.type||'Internship';
+    document.getElementById('e-org').value=e.org||'';
+    document.getElementById('e-role').value=e.role||'';
+    document.getElementById('e-dur').value=e.dur||'';
+    document.getElementById('e-year').value=e.year||'';
+    document.getElementById('e-desc').value=e.desc||'';
+    document.getElementById('exp-modal').classList.add('open');
+  } else if(sec==='achievements'){
+    const a=currentData.achievements[i];
+    editingIndex.ach=i;
+    document.getElementById('ach-modal-tag').textContent='Editing existing achievement';
+    document.getElementById('ach-modal-title').textContent='Edit Achievement';
+    document.getElementById('ach-save-btn').textContent='Save Changes';
+    document.getElementById('a-icon').value=a.icon||'';
+    document.getElementById('a-year').value=a.year||'';
+    document.getElementById('a-title').value=a.title||'';
+    document.getElementById('a-desc').value=a.desc||'';
+    document.getElementById('ach-modal').classList.add('open');
+  } else if(sec==='skills'){
+    const s=currentData.skills[i];
+    editingIndex.skill=i;
+    document.getElementById('skill-modal-tag').textContent='Editing existing skill';
+    document.getElementById('skill-modal-title').textContent='Edit Skill';
+    document.getElementById('skill-save-btn').textContent='Save Changes';
+    document.getElementById('s-icon').value=s.icon||'';
+    document.getElementById('s-name').value=s.name||'';
+    document.getElementById('skill-modal').classList.add('open');
+  }
+}
+
+function resetModal(type){
+  if(type==='project'){editingIndex.project=null;document.getElementById('project-modal-tag').textContent='Adding new project';document.getElementById('project-modal-title').textContent='Add New Project';document.getElementById('project-save-btn').textContent='Add Project';curProjImg=null;const drop=document.getElementById('proj-drop');drop.innerHTML='📁 Drag & drop or click to browse<input type="file" id="proj-img-file" accept="image/*" style="display:none" onchange="prevFile(this,\'proj-drop\')">';drop.style.padding='18px';}
+  if(type==='exp'){editingIndex.exp=null;document.getElementById('exp-modal-tag').textContent='Adding new experience';document.getElementById('exp-modal-title').textContent='Add Experience';document.getElementById('exp-save-btn').textContent='Add Experience';}
+  if(type==='ach'){editingIndex.ach=null;document.getElementById('ach-modal-tag').textContent='Adding new achievement';document.getElementById('ach-modal-title').textContent='Add Achievement';document.getElementById('ach-save-btn').textContent='Add Achievement';}
+  if(type==='skill'){editingIndex.skill=null;document.getElementById('skill-modal-tag').textContent='Adding new skill';document.getElementById('skill-modal-title').textContent='Add Skill';document.getElementById('skill-save-btn').textContent='Add Skill';}
+}
+
+// ── MODALS ────────────────────────────────────────────
+function openModal(t){resetModal(t);document.getElementById(`${t}-modal`).classList.add('open');}
+function closeModal(t){document.getElementById(`${t}-modal`).classList.remove('open');resetModal(t);['p-tag','p-title','p-desc','p-link','e-org','e-role','e-dur','e-year','e-desc','a-icon','a-year','a-title','a-desc','s-icon','s-name'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});}
+document.querySelectorAll('.modal-overlay').forEach(el=>el.addEventListener('click',e=>{if(e.target===el){const id=el.id.replace('-modal','').replace('-overlay','');if(id==='pw')closePw();else closeModal(el.id.replace('-modal',''));}}));
+
+// ── SAVE / UPDATE ITEMS ───────────────────────────────
+async function saveProject(){
+  const fileInput=document.getElementById('proj-img-file');
+  const file=fileInput?fileInput.files[0]:null;
+  let imageUrl=editingIndex.project!==null?currentData.projects[editingIndex.project].img:null;
+  if(file||curProjImg){
+    if(file){
+      showStatus('Uploading image…');
+      const fileName=`img_${Date.now()}_${file.name.replace(/\s+/g,'_')}`;
+      const filePath=`assets/${fileName}`;
+      const reader=new FileReader();
+      const b64=await new Promise(res=>{reader.onload=()=>res(reader.result.split(',')[1]);reader.readAsDataURL(file);});
+      const imgRes=await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${filePath}`,{method:'PUT',headers:{'Authorization':`token ${GH_TOKEN}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify({message:`Upload image: ${fileName}`,content:b64})});
+      if(imgRes.ok)imageUrl=`https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/main/${filePath}`;
+    } else if(curProjImg){imageUrl=curProjImg;}
+  }
+  const item={img:imageUrl,tag:document.getElementById('p-tag').value||'Project',title:document.getElementById('p-title').value||'Untitled',desc:document.getElementById('p-desc').value||'',link:document.getElementById('p-link').value||null};
+  if(editingIndex.project!==null){currentData.projects[editingIndex.project]=item;}
+  else{currentData.projects.unshift(item);} // ← newest first
+  closeModal('project');renderAll();
+  showStatus('Image synced! Saving…');await saveToGitHub();
+}
+
+function saveExp(){
+  const item={type:document.getElementById('e-type').value,org:document.getElementById('e-org').value||'Org',role:document.getElementById('e-role').value||'Role',dur:document.getElementById('e-dur').value||'',year:document.getElementById('e-year').value||'',desc:document.getElementById('e-desc').value||''};
+  if(editingIndex.exp!==null){currentData.experience[editingIndex.exp]=item;}
+  else{currentData.experience.unshift(item);} // ← newest first
+  closeModal('exp');renderAll();
+}
+
+function saveAch(){
+  const item={icon:document.getElementById('a-icon').value||'🏅',year:document.getElementById('a-year').value||'2024',title:document.getElementById('a-title').value||'Achievement',desc:document.getElementById('a-desc').value||''};
+  if(editingIndex.ach!==null){currentData.achievements[editingIndex.ach]=item;}
+  else{currentData.achievements.unshift(item);} // ← newest first
+  closeModal('ach');renderAll();
+}
+
+function saveSkill(){
+  const item={icon:document.getElementById('s-icon').value||'⚡',name:document.getElementById('s-name').value||'Skill'};
+  if(editingIndex.skill!==null){currentData.skills[editingIndex.skill]=item;}
+  else{currentData.skills.unshift(item);} // ← newest first
+  closeModal('skill');renderAll();
+}
+
+// ── ACTIONS ───────────────────────────────────────────
 function delItem(sec,i){if(!confirm('Remove this item?'))return;currentData[sec].splice(i,1);renderAll();}
 function handleAvatarClick(){if(isEdit)document.getElementById('avatar-file').click();}
 
-async function loadAvatar(inp) {
-    const file = inp.files[0];
-    if (!file) return;
-    showStatus('Uploading Avatar...');
-    const fileName = `avatar_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
-    const filePath = `assets/${fileName}`;
-    const reader = new FileReader();
-    const base64Promise = new Promise(resolve => {
-        reader.onload = () => resolve(reader.result.split(',')[1]);
-        reader.readAsDataURL(file);
-    });
-    const content = await base64Promise;
-    const imgApiUrl = `https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${filePath}`;
-    const imgRes = await fetch(imgApiUrl, {
-        method: 'PUT',
-        headers: { 'Authorization': `token ${GH_TOKEN}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: `Upload avatar: ${fileName}`, content: content })
-    });
-    if (imgRes.ok) {
-        const url = `https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/main/${filePath}`;
-        currentData.avatar = url;
-        document.getElementById('avatar-img').src = url;
-        document.getElementById('avatar-img').style.display = 'block';
-        document.getElementById('avatar-placeholder').style.display = 'none';
-        showStatus('Avatar updated! Saving...');
-        await saveToGitHub();
-    } else { showStatus('❌ Avatar upload failed'); }
+async function loadAvatar(inp){
+  const file=inp.files[0];if(!file)return;
+  showStatus('Uploading avatar…');
+  const fileName=`avatar_${Date.now()}_${file.name.replace(/\s+/g,'_')}`;
+  const filePath=`assets/${fileName}`;
+  const reader=new FileReader();
+  const b64=await new Promise(res=>{reader.onload=()=>res(reader.result.split(',')[1]);reader.readAsDataURL(file);});
+  const imgRes=await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${filePath}`,{method:'PUT',headers:{'Authorization':`token ${GH_TOKEN}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify({message:`Upload avatar: ${fileName}`,content:b64})});
+  if(imgRes.ok){
+    const url=`https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/main/${filePath}`;
+    currentData.avatar=url;
+    document.getElementById('avatar-img').src=url+'?t='+Date.now();
+    document.getElementById('avatar-img').style.display='block';
+    document.getElementById('avatar-placeholder').style.display='none';
+    showStatus('Avatar updated! Saving…');await saveToGitHub();
+  }else{showStatus('❌ Avatar upload failed');}
 }
 
-function replaceImg(i){if(!isEdit)return;const inp=document.createElement('input');inp.type='file';inp.accept='image/*';inp.onchange=async e=>{const f=e.target.files[0];if(!f)return;showStatus('Replacing Image...');const fileName=`img_${Date.now()}_${f.name.replace(/\s+/g,'_')}`;const filePath=`assets/${fileName}`;const reader=new FileReader();const b64Promise=new Promise(res=> {reader.onload=()=>res(reader.result.split(',')[1]);reader.readAsDataURL(f);});const content=await b64Promise;const imgApiUrl=`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${filePath}`;const imgRes=await fetch(imgApiUrl,{method:'PUT',headers:{'Authorization':`token ${GH_TOKEN}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify({message:`Replace image: ${fileName}`,content:content})});if(imgRes.ok){currentData.projects[i].img=`https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/main/${filePath}`;renderAll();showStatus('Replaced! Saving...');await saveToGitHub();}else{showStatus('❌ Replace failed');}};inp.click();}
-function openModal(t){curProjImg=null;document.getElementById(`${t}-modal`).classList.add('open');}
-function closeModal(t){document.getElementById(`${t}-modal`).classList.remove('open');}
-document.querySelectorAll('.modal-overlay').forEach(el=>el.addEventListener('click',e=>{if(e.target===el)el.classList.remove('open');}));
+async function replaceImg(i){
+  if(!isEdit)return;
+  const inp=document.createElement('input');inp.type='file';inp.accept='image/*';
+  inp.onchange=async e=>{
+    const f=e.target.files[0];if(!f)return;
+    showStatus('Replacing image…');
+    const fileName=`img_${Date.now()}_${f.name.replace(/\s+/g,'_')}`;
+    const filePath=`assets/${fileName}`;
+    const reader=new FileReader();
+    const b64=await new Promise(res=>{reader.onload=()=>res(reader.result.split(',')[1]);reader.readAsDataURL(f);});
+    const imgRes=await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${filePath}`,{method:'PUT',headers:{'Authorization':`token ${GH_TOKEN}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify({message:`Replace image: ${fileName}`,content:b64})});
+    if(imgRes.ok){currentData.projects[i].img=`https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/main/${filePath}`;renderAll();showStatus('Replaced! Saving…');await saveToGitHub();}
+    else{showStatus('❌ Replace failed');}
+  };
+  inp.click();
+}
+
 function dOver(e,id){e.preventDefault();document.getElementById(id).classList.add('drag-over');}
 function dLeave(id){document.getElementById(id).classList.remove('drag-over');}
 function dDrop(e,iid,did){e.preventDefault();dLeave(did);const f=e.dataTransfer.files[0];if(f&&f.type.startsWith('image/'))readImg(f,did,iid);}
 function prevFile(inp,did){if(inp.files[0])readImg(inp.files[0],did,inp.id);}
 function readImg(f,did,iid){const r=new FileReader();r.onload=e=>{curProjImg=e.target.result;const d=document.getElementById(did);d.innerHTML=`<img src="${e.target.result}" style="max-height:80px;border-radius:8px;object-fit:cover;width:100%"><input type="file" id="${iid}" accept="image/*" style="display:none" onchange="prevFile(this,'${did}')">`;d.style.padding='8px';};r.readAsDataURL(f);}
-
-async function saveProject() {
-    const fileInput = document.getElementById('proj-img-file');
-    const file = fileInput.files[0];
-    showStatus('Uploading Image to assets...');
-    let imageUrl = null;
-    if (file) {
-        const fileName = `img_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
-        const filePath = `assets/${fileName}`;
-        const reader = new FileReader();
-        const base64Promise = new Promise(resolve => {
-            reader.onload = () => resolve(reader.result.split(',')[1]);
-            reader.readAsDataURL(file);
-        });
-        const content = await base64Promise;
-        const imgApiUrl = `https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${filePath}`;
-        try {
-            const imgRes = await fetch(imgApiUrl, {
-                method: 'PUT',
-                headers: { 'Authorization': `token ${GH_TOKEN}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: `Upload image: ${fileName}`, content: content })
-            });
-            if (imgRes.ok) { imageUrl = `https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/main/${filePath}`; }
-        } catch (e) { showStatus('❌ Image failed'); return; }
-    }
-    currentData.projects.push({
-        img: imageUrl,
-        tag: document.getElementById('p-tag').value || 'Project',
-        title: document.getElementById('p-title').value || 'Untitled',
-        desc: document.getElementById('p-desc').value || '',
-        link: document.getElementById('p-link').value || null
-    });
-    closeModal('project');
-    renderAll();
-    ['p-tag','p-title','p-desc','p-link'].forEach(id=>document.getElementById(id).value='');
-    showStatus('Image synced! Saving data...');
-    await saveToGitHub();
-}
-
-function saveExp(){currentData.experience.push({type:document.getElementById('e-type').value,org:document.getElementById('e-org').value||'Org',role:document.getElementById('e-role').value||'Role',dur:document.getElementById('e-dur').value||'',year:document.getElementById('e-year').value||'',desc:document.getElementById('e-desc').value||''});closeModal('exp');renderAll();['e-org','e-role','e-dur','e-year','e-desc'].forEach(id=>document.getElementById(id).value='');}
-function saveAch(){currentData.achievements.push({icon:document.getElementById('a-icon').value||'🏅',year:document.getElementById('a-year').value||'2024',title:document.getElementById('a-title').value||'Achievement',desc:document.getElementById('a-desc').value||''});closeModal('ach');renderAll();['a-icon','a-year','a-title','a-desc'].forEach(id=>document.getElementById(id).value='');}
-function saveSkill(){currentData.skills.push({icon:document.getElementById('s-icon').value||'⚡',name:document.getElementById('s-name').value||'Skill'});closeModal('skill');renderAll();['s-icon','s-name'].forEach(id=>document.getElementById(id).value='');}
 </script>
 </body>
 </html>
