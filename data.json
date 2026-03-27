@@ -137,6 +137,14 @@
   ],
   "skills": [
     {
+      "icon": "🧑‍",
+      "name": "Web Development"
+    },
+    {
+      "icon": "📱",
+      "name": "Flutter"
+    },
+    {
       "icon": "🎨",
       "name": "Figma"
     },
