@@ -52,7 +52,7 @@
       "link": null
     },
     {
-      "img": null,
+      "img": "https://raw.githubusercontent.com/elgzermaluda/portfolio/main/assets/img_1774593340198_Screenshot_2026-03-27_143526.png",
       "tag": "Mobile Development / Social Impact",
       "title": "Food Bridge: Zero Hunger Solution",
       "desc": "A Flutter-based mobile application developed to combat food waste and malnutrition by connecting restaurants and individuals with NGOs and food banks. The platform features a real-time inventory management system and a map-based interface, aligning with UN Sustainable Development Goal 2 to streamline the distribution of surplus food to communities in need.",
