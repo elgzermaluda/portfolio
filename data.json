@@ -18,52 +18,10 @@
   "projects": [
     {
       "img": null,
-      "tag": "Web App",
-      "title": "Design System Builder",
-      "desc": "A drag-and-drop tool for creating and exporting consistent UI design systems. Used by 200+ teams worldwide.",
-      "link": "#"
-    },
-    {
-      "img": "https://raw.githubusercontent.com/elgzermaluda/portfolio/main/assets/img_1774579545246_Screenshot_2026-03-24_165752.png",
-      "tag": "AI / ML",
-      "title": "Smart Receipt Scanner",
-      "desc": "Mobile app using computer vision to automatically parse and categorise receipts for personal finance tracking.",
-      "link": "#"
-    },
-    {
-      "img": null,
-      "tag": "Dashboard",
-      "title": "Analytics Platform",
-      "desc": "Real-time analytics dashboard for e-commerce brands with beautiful data visualisations and export tools.",
-      "link": "#"
-    },
-    {
-      "img": null,
-      "tag": "Project",
-      "title": "Untitled",
-      "desc": "",
-      "link": null
-    },
-    {
-      "img": null,
-      "tag": "Project",
-      "title": "Untitled",
-      "desc": "",
-      "link": null
-    },
-    {
-      "img": null,
-      "tag": "Project",
-      "title": "Untitled",
-      "desc": "",
-      "link": null
-    },
-    {
-      "img": null,
-      "tag": "test",
-      "title": "Untitled",
-      "desc": "",
-      "link": "https://www.linkedin.com/notifications/?filter=all"
+      "tag": "Web Development",
+      "title": "Easy-Edit Portfolio Website",
+      "desc": "A personal website hosted on GitHub that updates automatically. I built it so I can just edit a file to change the content without having to deal with manual deployments or complex code every time.",
+      "link": "https://elgzermaluda.github.io/portfolio"
     }
   ],
   "experience": [
