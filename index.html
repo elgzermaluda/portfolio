@@ -18,8 +18,8 @@ html{scroll-behavior:smooth}
 body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);line-height:1.6}
 nav{background:rgba(250,248,244,.94);backdrop-filter:blur(14px);position:sticky;top:0;z-index:100;border-bottom:1px solid var(--border);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:66px}
 .nav-left{display:flex;align-items:center;gap:15px}
-.nav-logo{font-family:'Playfair Display',serif;font-size:21px;font-weight:700;color:var(--ink);text-decoration:none}
-#edit-toggle{background:var(--ink);color:#fff;border:none;padding:8px 18px;border-radius:100px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:7px;box-shadow:var(--shadow);transition:all .2s}
+.nav-logo{font-family:'Playfair Display',serif;font-size:21px;font-weight:700;color:var(--ink);text-decoration:none;user-select:none}
+#edit-toggle{background:var(--ink);color:#fff;border:none;padding:8px 18px;border-radius:100px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:12px;cursor:pointer;display:none;align-items:center;gap:7px;box-shadow:var(--shadow);transition:all .2s}
 #edit-toggle:hover{background:var(--accent);transform:translateY(-1px)}
 #edit-toggle.editing{background:var(--accent)}
 #edit-toggle .dot{width:7px;height:7px;border-radius:50%;background:#4ade80;flex-shrink:0}
@@ -393,8 +393,32 @@ let isEdit=false, curProjImg=null, currentData={};
 let editingIndex = { project:null, exp:null, ach:null, skill:null };
 let showAll = { projects:false, experience:false, achievements:false, skills:false };
 
+// ── SECRET REVEAL: click your name 5x fast ────────────
+let nameClickCount = 0, nameClickTimer = null;
+function handleNameClick(e){
+  e.preventDefault();
+  nameClickCount++;
+  clearTimeout(nameClickTimer);
+  nameClickTimer = setTimeout(()=>{ nameClickCount = 0; }, 1500);
+  if(nameClickCount >= 5){
+    nameClickCount = 0;
+    document.getElementById('edit-toggle').style.display = 'flex';
+    sessionStorage.setItem('pf_show_edit','1');
+  }
+}
+function restoreEditButtonVisibility(){
+  if(sessionStorage.getItem('pf_show_edit') === '1'){
+    document.getElementById('edit-toggle').style.display = 'flex';
+  }
+}
+
 // ── INIT ──────────────────────────────────────────────
-window.onload = async () => { currentData = await loadFromGitHub(); renderAll(); };
+window.onload = async () => {
+  currentData = await loadFromGitHub();
+  renderAll();
+  restoreEditButtonVisibility();
+  document.getElementById('nav-name').addEventListener('click', handleNameClick);
+};
 
 // ── GITHUB ────────────────────────────────────────────
 async function loadFromGitHub() {
