@@ -403,12 +403,6 @@ function handleNameClick(e){
   if(nameClickCount >= 5){
     nameClickCount = 0;
     document.getElementById('edit-toggle').style.display = 'flex';
-    sessionStorage.setItem('pf_show_edit','1');
-  }
-}
-function restoreEditButtonVisibility(){
-  if(sessionStorage.getItem('pf_show_edit') === '1'){
-    document.getElementById('edit-toggle').style.display = 'flex';
   }
 }
 
@@ -416,7 +410,6 @@ function restoreEditButtonVisibility(){
 window.onload = async () => {
   currentData = await loadFromGitHub();
   renderAll();
-  restoreEditButtonVisibility();
   document.getElementById('nav-name').addEventListener('click', handleNameClick);
 };
 
