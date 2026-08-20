@@ -205,6 +205,7 @@ footer strong{color:rgba(255,255,255,.55);font-weight:600}
     <li><a href="#projects">Projects</a></li>
     <li><a href="#experience">Experience</a></li>
     <li><a href="#achievements">Achievements</a></li>
+    <li><a href="#activity">Activity</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
@@ -259,6 +260,15 @@ footer strong{color:rgba(255,255,255,.55);font-weight:600}
   </div>
   <div class="ach-list" id="ach-list"></div>
   <div class="see-more-container" id="achievements-sm-box" style="display:none"><button class="see-more-btn" onclick="toggleSeeMore('achievements')">See More Achievements</button></div>
+</section>
+
+<section id="activity">
+  <div class="section-header">
+    <div><div class="section-label">Lately</div><div class="section-title">Recent Activity</div></div>
+    <button class="add-btn" onclick="openModal('activity')"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Import from LinkedIn</button>
+  </div>
+  <div class="projects-grid" id="activity-grid"></div>
+  <div class="see-more-container"><a class="see-more-btn" style="display:inline-block;text-decoration:none" href="#" id="li-see-more-link" target="_blank" rel="noopener">See more on LinkedIn →</a></div>
 </section>
 
 <section id="skills">
@@ -354,6 +364,22 @@ footer strong{color:rgba(255,255,255,.55);font-weight:600}
   </div>
 </div>
 
+<!-- ACTIVITY BULK IMPORT MODAL -->
+<div class="modal-overlay" id="activity-modal">
+  <div class="modal">
+    <div class="modal-mode-tag">Import from LinkedIn</div>
+    <h3>Bulk Import Activity</h3>
+    <div class="mf">
+      <label>1. Paste the JSON copied by the bookmarklet</label>
+      <textarea id="li-json" placeholder='[{"text":"...","type":"post","image":"post_1.jpg"}, ...]' style="min-height:130px;font-family:monospace;font-size:12px"></textarea>
+      <label>2. Select ALL the downloaded images at once (from your Downloads folder)</label>
+      <div class="file-drop" onclick="document.getElementById('li-images-input').click()">📁 Click to select images (multi-select)<input type="file" id="li-images-input" accept="image/*" multiple style="display:none" onchange="liImagesPicked(this)"></div>
+      <div id="li-images-status" style="font-size:12px;color:var(--ink-light)"></div>
+      <div class="modal-btns"><button class="m-cancel" onclick="closeModal('activity')">Cancel</button><button class="m-save" id="activity-save-btn" onclick="importActivity()">Import</button></div>
+    </div>
+  </div>
+</div>
+
 <script>
 // ══════════════════════════════════════════
 // ⚙️ CONFIG — fill these in before uploading
@@ -363,6 +389,7 @@ const GH_USER = 'elgzermaluda';
 const GH_REPO = 'portfolio';
 const GH_FILE = 'data.json';
 const PW      = 'portfolio123';
+const LINKEDIN_ACTIVITY_URL = 'https://www.linkedin.com/in/YOUR-USERNAME/recent-activity/all/'; // ← EDIT THIS to your real LinkedIn activity URL
 // ══════════════════════════════════════════
 
 const DEF = {
@@ -386,7 +413,8 @@ const DEF = {
     {icon:'⚛️',name:'React / Next.js'},{icon:'🎨',name:'Figma'},{icon:'🐍',name:'Python'},
     {icon:'☁️',name:'AWS'},{icon:'🗄️',name:'PostgreSQL'},{icon:'📱',name:'React Native'},
     {icon:'🔧',name:'Node.js'},{icon:'🤖',name:'Machine Learning'},
-  ]
+  ],
+  activity:[]
 };
 
 let isEdit=false, curProjImg=null, currentData={};
@@ -488,8 +516,32 @@ function renderAll(){
   const d=currentData;
   CE_IDS.forEach(id=>{if(d.text&&d.text[id]){const e=document.getElementById(id);if(e)e.innerHTML=d.text[id];}});
   if(d.avatar){document.getElementById('avatar-img').src=d.avatar+'?t='+Date.now();document.getElementById('avatar-img').style.display='block';document.getElementById('avatar-placeholder').style.display='none';}
-  renderProjects(d.projects||[]);renderExp(d.experience||[]);renderAch(d.achievements||[]);renderSkills(d.skills||[]);
+  renderProjects(d.projects||[]);renderExp(d.experience||[]);renderAch(d.achievements||[]);renderSkills(d.skills||[]);renderActivity(d.activity||[]);
+  const liLink=document.getElementById('li-see-more-link');if(liLink)liLink.href=LINKEDIN_ACTIVITY_URL;
   if(isEdit)enableCE();
+}
+
+function actionBtnsNoEdit(sec, i) {
+  return `<div class="card-actions">
+    <button class="btn-move" onclick="moveItem('${sec}',${i},-1)" title="Move up">↑</button>
+    <button class="btn-move" onclick="moveItem('${sec}',${i},1)" title="Move down">↓</button>
+    <button class="btn-del" onclick="delItem('${sec}',${i})" title="Delete">✕</button>
+  </div>`;
+}
+
+function renderActivity(list){
+  const showList=list.slice(0,5);
+  document.getElementById('activity-grid').innerHTML=showList.map((a,i)=>`
+    <div class="project-card">
+      ${actionBtnsNoEdit('activity',i)}
+      <div class="project-img">
+        ${a.img?`<img src="${a.img}" alt="">`:`<div class="project-img-ph">${a.type==='video'?'🎬':'📝'}</div>`}
+      </div>
+      <div class="project-body">
+        <div class="project-tag">${a.type==='video'?'Video Post':'Post'}</div>
+        <div class="project-desc">${a.text||''}</div>
+      </div>
+    </div>`).join('');
 }
 
 function actionBtns(sec, i) {
@@ -624,7 +676,7 @@ function resetModal(type){
 
 // ── MODALS ────────────────────────────────────────────
 function openModal(t){resetModal(t);document.getElementById(`${t}-modal`).classList.add('open');}
-function closeModal(t){document.getElementById(`${t}-modal`).classList.remove('open');resetModal(t);['p-tag','p-title','p-desc','p-link','e-org','e-role','e-dur','e-year','e-desc','a-icon','a-year','a-title','a-desc','s-icon','s-name'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});}
+function closeModal(t){document.getElementById(`${t}-modal`).classList.remove('open');resetModal(t);['p-tag','p-title','p-desc','p-link','e-org','e-role','e-dur','e-year','e-desc','a-icon','a-year','a-title','a-desc','s-icon','s-name','li-json'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});liPickedFiles=null;const st=document.getElementById('li-images-status');if(st)st.textContent='';}
 document.querySelectorAll('.modal-overlay').forEach(el=>el.addEventListener('click',e=>{if(e.target===el){const id=el.id.replace('-modal','').replace('-overlay','');if(id==='pw')closePw();else closeModal(el.id.replace('-modal',''));}}));
 
 // ── SAVE / UPDATE ITEMS ───────────────────────────────
@@ -669,6 +721,47 @@ function saveSkill(){
   if(editingIndex.skill!==null){currentData.skills[editingIndex.skill]=item;}
   else{currentData.skills.unshift(item);} // ← newest first
   closeModal('skill');renderAll();
+}
+
+// ── LINKEDIN BULK IMPORT ───────────────────────────────
+let liPickedFiles=null;
+function liImagesPicked(inp){
+  liPickedFiles=inp.files;
+  document.getElementById('li-images-status').textContent=liPickedFiles.length+' image(s) selected: '+[...liPickedFiles].map(f=>f.name).join(', ');
+}
+
+async function importActivity(){
+  let parsed;
+  try{ parsed=JSON.parse(document.getElementById('li-json').value); }
+  catch(e){ alert('That JSON doesn\'t look valid — paste exactly what the bookmarklet copied.'); return; }
+  if(!Array.isArray(parsed)||!parsed.length){ alert('No entries found in that JSON.'); return; }
+  parsed=parsed.slice(0,5);
+
+  // Build a filename -> File lookup from whatever was multi-selected
+  const fileMap={};
+  if(liPickedFiles){ [...liPickedFiles].forEach(f=>{ fileMap[f.name]=f; }); }
+
+  const newActivity=[];
+  for(let idx=0; idx<parsed.length; idx++){
+    const entry=parsed[idx];
+    let imgUrl='';
+    const wantedName=entry.image;
+    if(wantedName && fileMap[wantedName]){
+      showStatus(`Uploading image ${idx+1} of ${parsed.length}…`);
+      const file=fileMap[wantedName];
+      const fileName=`li_${Date.now()}_${idx}_${wantedName.replace(/\s+/g,'_')}`;
+      const filePath=`assets/${fileName}`;
+      const reader=new FileReader();
+      const b64=await new Promise(res=>{reader.onload=()=>res(reader.result.split(',')[1]);reader.readAsDataURL(file);});
+      const imgRes=await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${filePath}`,{method:'PUT',headers:{'Authorization':`token ${GH_TOKEN}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify({message:`Upload LinkedIn image: ${fileName}`,content:b64})});
+      if(imgRes.ok) imgUrl=`https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/main/${filePath}`;
+    }
+    newActivity.push({ text: entry.text||'', type: entry.type||'post', img: imgUrl });
+  }
+
+  currentData.activity=newActivity;
+  closeModal('activity');renderAll();
+  showStatus('Saving…');await saveToGitHub();
 }
 
 // ── ACTIONS ───────────────────────────────────────────
