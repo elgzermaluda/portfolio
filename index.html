@@ -393,12 +393,24 @@ window.onload = async () => {
 };
 
 // ── GITHUB ────────────────────────────────────────────
+function b64DecodeUnicode(str){
+  const binary = atob(str.replace(/\n/g,''));
+  const bytes = Uint8Array.from(binary, c => c.charCodeAt(0));
+  return new TextDecoder('utf-8').decode(bytes);
+}
+
 async function loadFromGitHub() {
   try {
-    const url = `https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/main/${GH_FILE}?t=${Date.now()}`;
-    const res = await fetch(url);
+    // Read via the GitHub API (not raw.githubusercontent.com) — the raw CDN
+    // caches for several minutes, which made saved changes look "not saved"
+    // right after saving. The API always reflects the true current state.
+    const apiUrl = `https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${GH_FILE}?t=${Date.now()}`;
+    const headers = {'Accept':'application/vnd.github.v3+json'};
+    if(GH_TOKEN) headers['Authorization'] = `token ${GH_TOKEN}`;
+    const res = await fetch(apiUrl, {headers});
     if(!res.ok) return JSON.parse(JSON.stringify(DEF));
-    return await res.json();
+    const json = await res.json();
+    return JSON.parse(b64DecodeUnicode(json.content));
   } catch(e) { return JSON.parse(JSON.stringify(DEF)); }
 }
 
