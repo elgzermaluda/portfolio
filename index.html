@@ -109,22 +109,6 @@ body.edit-mode .project-img:hover .img-overlay{display:flex}
 .project-desc{font-size:14px;color:var(--ink-light);line-height:1.65;margin-bottom:16px}
 .project-link{font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;display:inline-flex;align-items:center;gap:4px}
 .project-link:hover{text-decoration:underline}
-#experience{background:var(--cream)}
-.exp-list{display:flex;flex-direction:column}
-.exp-item{display:grid;grid-template-columns:110px 1fr;position:relative}
-.exp-item::before{content:'';position:absolute;left:109px;top:28px;bottom:0;width:1px;background:var(--border)}
-.exp-item:last-child::before{display:none}
-.exp-left{padding:22px 20px 22px 0;text-align:right}
-.exp-year{font-size:12px;font-weight:700;color:var(--gold);letter-spacing:1px}
-.exp-duration{font-size:11px;color:var(--ink-light);margin-top:4px;line-height:1.4}
-.exp-right{padding:22px 0 22px 30px;position:relative}
-.exp-dot{position:absolute;left:-7px;top:28px;width:13px;height:13px;border-radius:50%;background:var(--white);border:2.5px solid var(--accent);z-index:1}
-.exp-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px 22px;position:relative;transition:box-shadow .2s}
-.exp-card:hover{box-shadow:var(--shadow)}
-.exp-org{font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
-.exp-role{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--ink);margin-bottom:8px;line-height:1.3}
-.exp-type-badge{display:inline-block;background:var(--sage-soft);color:var(--sage);border-radius:100px;padding:2px 10px;font-size:11px;font-weight:700;letter-spacing:.5px;margin-bottom:10px}
-.exp-desc{font-size:14px;color:var(--ink-light);line-height:1.65}
 #achievements{background:var(--white)}
 .ach-list{display:flex;flex-direction:column;gap:14px}
 .ach-card{background:var(--cream);border:1px solid var(--border);border-radius:var(--radius-sm);padding:22px 26px;display:grid;grid-template-columns:52px 1fr;gap:18px;align-items:start;position:relative;transition:all .2s}
@@ -173,7 +157,6 @@ footer strong{color:rgba(255,255,255,.55);font-weight:600}
 @media(max-width:768px){
   .hero-avatar{display:none}.nav-links{display:none}
   .projects-grid{grid-template-columns:1fr}
-  .exp-item{grid-template-columns:72px 1fr}.exp-item::before{left:71px}
 }
 </style>
 </head>
@@ -203,7 +186,6 @@ footer strong{color:rgba(255,255,255,.55);font-weight:600}
   </div>
   <ul class="nav-links">
     <li><a href="#projects">Projects</a></li>
-    <li><a href="#experience">Experience</a></li>
     <li><a href="#achievements">Achievements</a></li>
     <li><a href="#activity">Activity</a></li>
     <li><a href="#skills">Skills</a></li>
@@ -242,15 +224,6 @@ footer strong{color:rgba(255,255,255,.55);font-weight:600}
   </div>
   <div class="projects-grid" id="projects-grid"></div>
   <div class="see-more-container" id="projects-sm-box" style="display:none"><button class="see-more-btn" onclick="toggleSeeMore('projects')">See More Projects</button></div>
-</section>
-
-<section id="experience">
-  <div class="section-header">
-    <div><div class="section-label">Background</div><div class="section-title">Experience</div></div>
-    <button class="add-btn" onclick="openModal('exp')"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>Add Experience</button>
-  </div>
-  <div class="exp-list" id="exp-list"></div>
-  <div class="see-more-container" id="experience-sm-box" style="display:none"><button class="see-more-btn" onclick="toggleSeeMore('experience')">See More Experience</button></div>
 </section>
 
 <section id="achievements">
@@ -319,23 +292,6 @@ footer strong{color:rgba(255,255,255,.55);font-weight:600}
   </div>
 </div>
 
-<!-- EXPERIENCE MODAL -->
-<div class="modal-overlay" id="exp-modal">
-  <div class="modal">
-    <div class="modal-mode-tag" id="exp-modal-tag">Adding new experience</div>
-    <h3 id="exp-modal-title">Add Experience</h3>
-    <div class="mf">
-      <label>Type</label><select id="e-type"><option>Internship</option><option>Full-time</option><option>Part-time</option><option>Volunteer</option><option>Freelance</option><option>Research</option><option>Education</option></select>
-      <label>Organisation / Company</label><input type="text" id="e-org" placeholder="e.g. Google, NUS, Red Cross...">
-      <label>Role / Position</label><input type="text" id="e-role" placeholder="e.g. Software Engineer Intern">
-      <label>Duration</label><input type="text" id="e-dur" placeholder="e.g. May – Aug 2024">
-      <label>Year</label><input type="text" id="e-year" placeholder="2024">
-      <label>Description (optional)</label><textarea id="e-desc" placeholder="What did you do?"></textarea>
-      <div class="modal-btns"><button class="m-cancel" onclick="closeModal('exp')">Cancel</button><button class="m-save" id="exp-save-btn" onclick="saveExp()">Add Experience</button></div>
-    </div>
-  </div>
-</div>
-
 <!-- ACHIEVEMENT MODAL -->
 <div class="modal-overlay" id="ach-modal">
   <div class="modal">
@@ -389,7 +345,7 @@ const GH_USER = 'elgzermaluda';
 const GH_REPO = 'portfolio';
 const GH_FILE = 'data.json';
 const PW      = 'portfolio123';
-const LINKEDIN_ACTIVITY_URL = 'https://www.linkedin.com/in/YOUR-USERNAME/recent-activity/all/'; // ← EDIT THIS to your real LinkedIn activity URL
+const LINKEDIN_ACTIVITY_URL = 'https://www.linkedin.com/in/elgzer-mark-maluda/recent-activity/all/';
 // ══════════════════════════════════════════
 
 const DEF = {
@@ -398,11 +354,6 @@ const DEF = {
     {img:null,tag:'Web App',title:'Design System Builder',desc:'A drag-and-drop tool for creating and exporting consistent UI design systems. Used by 200+ teams worldwide.',link:'#'},
     {img:null,tag:'AI / ML',title:'Smart Receipt Scanner',desc:'Mobile app using computer vision to automatically parse and categorise receipts for personal finance tracking.',link:'#'},
     {img:null,tag:'Dashboard',title:'Analytics Platform',desc:'Real-time analytics dashboard for e-commerce brands with beautiful data visualisations and export tools.',link:'#'},
-  ],
-  experience:[
-    {type:'Internship',org:'Grab',role:'Software Engineer Intern',dur:'May – Aug 2024',year:'2024',desc:'Built internal tooling for the operations team, cutting manual processes by 40%.'},
-    {type:'Volunteer',org:'Code For Good',role:'Web Developer',dur:'Jan – Dec 2023',year:'2023',desc:'Designed and built websites for local nonprofits, helping 3 organisations establish their digital presence.'},
-    {type:'Research',org:'NUS School of Computing',role:'Undergraduate Researcher',dur:'Aug 2022 – May 2023',year:'2022',desc:'Assisted in research on AI-powered accessibility tools. Co-authored a paper on inclusive design.'},
   ],
   achievements:[
     {icon:'🏆',year:'2024',title:'Best Final Year Project — NUS School of Computing',desc:'Awarded top honours for an AI-powered accessibility tool that assists visually impaired users.'},
@@ -418,8 +369,8 @@ const DEF = {
 };
 
 let isEdit=false, curProjImg=null, currentData={};
-let editingIndex = { project:null, exp:null, ach:null, skill:null };
-let showAll = { projects:false, experience:false, achievements:false, skills:false };
+let editingIndex = { project:null, ach:null, skill:null };
+let showAll = { projects:false, achievements:false, skills:false };
 
 // ── SECRET REVEAL: click your name 5x fast ────────────
 let nameClickCount = 0, nameClickTimer = null;
@@ -467,7 +418,14 @@ async function saveToGitHub() {
 
 function showStatus(msg){
   let el=document.getElementById('save-status');
-  if(!el){el=document.createElement('div');el.id='save-status';el.style.cssText='font-size:12px;margin-top:10px;min-height:18px;font-weight:500;text-align:center;color:var(--accent)';document.getElementById('pw-box').appendChild(el);}
+  if(!el){
+    el=document.createElement('div');
+    el.id='save-status';
+    el.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 24px;border-radius:100px;font-size:13px;font-weight:600;z-index:5000;box-shadow:var(--shadow-lg);transition:opacity .2s;pointer-events:none';
+    document.body.appendChild(el);
+  }
+  if(!msg){ el.style.opacity='0'; return; }
+  el.style.opacity='1';
   el.textContent=msg;
 }
 
@@ -516,7 +474,7 @@ function renderAll(){
   const d=currentData;
   CE_IDS.forEach(id=>{if(d.text&&d.text[id]){const e=document.getElementById(id);if(e)e.innerHTML=d.text[id];}});
   if(d.avatar){document.getElementById('avatar-img').src=d.avatar+'?t='+Date.now();document.getElementById('avatar-img').style.display='block';document.getElementById('avatar-placeholder').style.display='none';}
-  renderProjects(d.projects||[]);renderExp(d.experience||[]);renderAch(d.achievements||[]);renderSkills(d.skills||[]);renderActivity(d.activity||[]);
+  renderProjects(d.projects||[]);renderAch(d.achievements||[]);renderSkills(d.skills||[]);renderActivity(d.activity||[]);
   const liLink=document.getElementById('li-see-more-link');if(liLink)liLink.href=LINKEDIN_ACTIVITY_URL;
   if(isEdit)enableCE();
 }
@@ -575,24 +533,6 @@ function renderProjects(list){
   document.getElementById('projects-sm-box').style.display=(!showAll.projects&&list.length>limit)?'flex':'none';
 }
 
-function renderExp(list){
-  const limit=4,showList=showAll.experience?list:list.slice(0,limit);
-  document.getElementById('exp-list').innerHTML=showList.map((e,i)=>`
-    <div class="exp-item">
-      <div class="exp-left"><div class="exp-year">${e.year}</div><div class="exp-duration">${e.dur}</div></div>
-      <div class="exp-right"><div class="exp-dot"></div>
-        <div class="exp-card">
-          ${actionBtns('experience',i)}
-          <div class="exp-org">${e.org}</div>
-          <div class="exp-role">${e.role}</div>
-          <span class="exp-type-badge">${e.type}</span>
-          ${e.desc?`<div class="exp-desc">${e.desc}</div>`:''}
-        </div>
-      </div>
-    </div>`).join('');
-  document.getElementById('experience-sm-box').style.display=(!showAll.experience&&list.length>limit)?'flex':'none';
-}
-
 function renderAch(list){
   const limit=4,showList=showAll.achievements?list:list.slice(0,limit);
   document.getElementById('ach-list').innerHTML=showList.map((a,i)=>`
@@ -631,19 +571,6 @@ function openEditModal(sec, i) {
     drop.style.padding=p.img?'8px':'18px';
     curProjImg=null;
     document.getElementById('project-modal').classList.add('open');
-  } else if(sec==='experience'){
-    const e=currentData.experience[i];
-    editingIndex.exp=i;
-    document.getElementById('exp-modal-tag').textContent='Editing existing experience';
-    document.getElementById('exp-modal-title').textContent='Edit Experience';
-    document.getElementById('exp-save-btn').textContent='Save Changes';
-    document.getElementById('e-type').value=e.type||'Internship';
-    document.getElementById('e-org').value=e.org||'';
-    document.getElementById('e-role').value=e.role||'';
-    document.getElementById('e-dur').value=e.dur||'';
-    document.getElementById('e-year').value=e.year||'';
-    document.getElementById('e-desc').value=e.desc||'';
-    document.getElementById('exp-modal').classList.add('open');
   } else if(sec==='achievements'){
     const a=currentData.achievements[i];
     editingIndex.ach=i;
@@ -669,14 +596,13 @@ function openEditModal(sec, i) {
 
 function resetModal(type){
   if(type==='project'){editingIndex.project=null;document.getElementById('project-modal-tag').textContent='Adding new project';document.getElementById('project-modal-title').textContent='Add New Project';document.getElementById('project-save-btn').textContent='Add Project';curProjImg=null;const drop=document.getElementById('proj-drop');drop.innerHTML='📁 Drag & drop or click to browse<input type="file" id="proj-img-file" accept="image/*" style="display:none" onchange="prevFile(this,\'proj-drop\')">';drop.style.padding='18px';}
-  if(type==='exp'){editingIndex.exp=null;document.getElementById('exp-modal-tag').textContent='Adding new experience';document.getElementById('exp-modal-title').textContent='Add Experience';document.getElementById('exp-save-btn').textContent='Add Experience';}
   if(type==='ach'){editingIndex.ach=null;document.getElementById('ach-modal-tag').textContent='Adding new achievement';document.getElementById('ach-modal-title').textContent='Add Achievement';document.getElementById('ach-save-btn').textContent='Add Achievement';}
   if(type==='skill'){editingIndex.skill=null;document.getElementById('skill-modal-tag').textContent='Adding new skill';document.getElementById('skill-modal-title').textContent='Add Skill';document.getElementById('skill-save-btn').textContent='Add Skill';}
 }
 
 // ── MODALS ────────────────────────────────────────────
 function openModal(t){resetModal(t);document.getElementById(`${t}-modal`).classList.add('open');}
-function closeModal(t){document.getElementById(`${t}-modal`).classList.remove('open');resetModal(t);['p-tag','p-title','p-desc','p-link','e-org','e-role','e-dur','e-year','e-desc','a-icon','a-year','a-title','a-desc','s-icon','s-name','li-json'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});liPickedFiles=null;const st=document.getElementById('li-images-status');if(st)st.textContent='';}
+function closeModal(t){document.getElementById(`${t}-modal`).classList.remove('open');resetModal(t);['p-tag','p-title','p-desc','p-link','a-icon','a-year','a-title','a-desc','s-icon','s-name','li-json'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});liPickedFiles=null;const st=document.getElementById('li-images-status');if(st)st.textContent='';}
 document.querySelectorAll('.modal-overlay').forEach(el=>el.addEventListener('click',e=>{if(e.target===el){const id=el.id.replace('-modal','').replace('-overlay','');if(id==='pw')closePw();else closeModal(el.id.replace('-modal',''));}}));
 
 // ── SAVE / UPDATE ITEMS ───────────────────────────────
@@ -700,13 +626,6 @@ async function saveProject(){
   else{currentData.projects.unshift(item);} // ← newest first
   closeModal('project');renderAll();
   showStatus('Image synced! Saving…');await saveToGitHub();
-}
-
-function saveExp(){
-  const item={type:document.getElementById('e-type').value,org:document.getElementById('e-org').value||'Org',role:document.getElementById('e-role').value||'Role',dur:document.getElementById('e-dur').value||'',year:document.getElementById('e-year').value||'',desc:document.getElementById('e-desc').value||''};
-  if(editingIndex.exp!==null){currentData.experience[editingIndex.exp]=item;}
-  else{currentData.experience.unshift(item);} // ← newest first
-  closeModal('exp');renderAll();
 }
 
 function saveAch(){
@@ -737,24 +656,34 @@ async function importActivity(){
   if(!Array.isArray(parsed)||!parsed.length){ alert('No entries found in that JSON.'); return; }
   parsed=parsed.slice(0,5);
 
-  // Build a filename -> File lookup from whatever was multi-selected
-  const fileMap={};
-  if(liPickedFiles){ [...liPickedFiles].forEach(f=>{ fileMap[f.name]=f; }); }
+  // Sort selected files naturally (post_1, post_2, ... post_10) so order lines up
+  // with the JSON entries even if filenames got renamed like "post_1 (1).jpg"
+  const sortedFiles = liPickedFiles ? [...liPickedFiles].sort((a,b)=>a.name.localeCompare(b.name,undefined,{numeric:true})) : [];
+  let fileCursor = 0;
 
   const newActivity=[];
+  let uploaded=0, failedUploads=0, skippedNoFile=0;
   for(let idx=0; idx<parsed.length; idx++){
     const entry=parsed[idx];
     let imgUrl='';
-    const wantedName=entry.image;
-    if(wantedName && fileMap[wantedName]){
-      showStatus(`Uploading image ${idx+1} of ${parsed.length}…`);
-      const file=fileMap[wantedName];
-      const fileName=`li_${Date.now()}_${idx}_${wantedName.replace(/\s+/g,'_')}`;
-      const filePath=`assets/${fileName}`;
-      const reader=new FileReader();
-      const b64=await new Promise(res=>{reader.onload=()=>res(reader.result.split(',')[1]);reader.readAsDataURL(file);});
-      const imgRes=await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${filePath}`,{method:'PUT',headers:{'Authorization':`token ${GH_TOKEN}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify({message:`Upload LinkedIn image: ${fileName}`,content:b64})});
-      if(imgRes.ok) imgUrl=`https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/main/${filePath}`;
+    const needsImage = !!entry.image;
+    if(needsImage){
+      const file = sortedFiles[fileCursor];
+      if(file){
+        fileCursor++;
+        showStatus(`Uploading image ${idx+1} of ${parsed.length}…`);
+        const fileName=`li_${Date.now()}_${idx}_${file.name.replace(/\s+/g,'_')}`;
+        const filePath=`assets/${fileName}`;
+        const reader=new FileReader();
+        const b64=await new Promise(res=>{reader.onload=()=>res(reader.result.split(',')[1]);reader.readAsDataURL(file);});
+        try{
+          const imgRes=await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${filePath}`,{method:'PUT',headers:{'Authorization':`token ${GH_TOKEN}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify({message:`Upload LinkedIn image: ${fileName}`,content:b64})});
+          if(imgRes.ok){ imgUrl=`https://raw.githubusercontent.com/${GH_USER}/${GH_REPO}/main/${filePath}`; uploaded++; }
+          else { failedUploads++; }
+        }catch(e){ failedUploads++; }
+      } else {
+        skippedNoFile++;
+      }
     }
     newActivity.push({ text: entry.text||'', type: entry.type||'post', img: imgUrl });
   }
@@ -762,6 +691,11 @@ async function importActivity(){
   currentData.activity=newActivity;
   closeModal('activity');renderAll();
   showStatus('Saving…');await saveToGitHub();
+
+  let summary = `Imported ${newActivity.length} posts. Images uploaded: ${uploaded}.`;
+  if(failedUploads) summary += ` ${failedUploads} image upload(s) failed (check your GitHub token/repo permissions).`;
+  if(skippedNoFile) summary += ` ${skippedNoFile} post(s) needed an image but none was selected — did you pick all the downloaded files?`;
+  alert(summary);
 }
 
 // ── ACTIONS ───────────────────────────────────────────
