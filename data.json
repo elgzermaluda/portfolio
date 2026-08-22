@@ -164,6 +164,22 @@
   ],
   "skills": [
     {
+      "icon": "⚡",
+      "name": "Excel / Power BI Power Query"
+    },
+    {
+      "icon": "⚡",
+      "name": "Microsoft SharePoint"
+    },
+    {
+      "icon": "⚡",
+      "name": "Microsoft Power Automate"
+    },
+    {
+      "icon": "⚡",
+      "name": "Microsoft Power Apps"
+    },
+    {
       "icon": "🔧",
       "name": "Github"
     },
